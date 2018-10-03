@@ -108,7 +108,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: f71da9fd7bb1c49f5a9d2f7504829bbc
     vertices: []
     indices: 
     edges: []
@@ -117,5 +117,5 @@ TextureImporter:
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
   userData: 
-  assetBundleName: 
+  assetBundleName: luncheon
   assetBundleVariant: 

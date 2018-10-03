@@ -1,0 +1,2 @@
+/Users/deanfoster/Desktop/Github/phillips-ar/phillips-ar/obj/Debug/Assembly-CSharp.csprojAssemblyReference.cache
+/Users/deanfoster/Desktop/Github/phillips-ar/phillips-ar/obj/Debug/Assembly-CSharp.csproj.CoreCompileInputs.cache
