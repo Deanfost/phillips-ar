@@ -1,0 +1,7 @@
+ManifestFileVersion: 0
+CRC: 1250717436
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: luncheon
+      Dependencies: {}

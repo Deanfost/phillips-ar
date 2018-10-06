@@ -1,10 +1,10 @@
 ﻿<Properties StartupConfiguration="{5D94202F-D2F4-75A7-54A5-12DAFDF19DFC}|">
   <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="Unity.Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Editor/CreateAssetBundles.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/GenerateCustomMeshes.cs">
     <Files>
-      <File FileName="Assets/Scripts/AppManager.cs" Line="19" Column="3" />
-      <File FileName="Assets/Editor/CreateAssetBundles.cs" Line="16" Column="2" />
-      <File FileName="Assets/Editor/GenerateMeshes.cs" Line="9" Column="3" />
+      <File FileName="Assets/Scripts/AppManager.cs" Line="12" Column="30" />
+      <File FileName="Assets/Editor/CreateAssetBundles.cs" Line="17" Column="2" />
+      <File FileName="Assets/Scripts/GenerateCustomMeshes.cs" Line="19" Column="10" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />

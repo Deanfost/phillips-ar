@@ -10,8 +10,6 @@ public class AppManager : MonoBehaviour {
         // Load the 3D mask models
         // Would normally be called after image target reco by AR Core
         masks = LoadBundle();
-
-
     }
 	
 	// Update is called once per frame
