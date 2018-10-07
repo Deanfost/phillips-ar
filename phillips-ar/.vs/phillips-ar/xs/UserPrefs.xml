@@ -4,12 +4,14 @@
     <Files>
       <File FileName="Assets/Scripts/AppManager.cs" Line="12" Column="30" />
       <File FileName="Assets/Editor/CreateAssetBundles.cs" Line="17" Column="2" />
-      <File FileName="Assets/Scripts/GenerateCustomMeshes.cs" Line="19" Column="10" />
+      <File FileName="Assets/Scripts/GenerateCustomMeshes.cs" Line="58" Column="9" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="/Users/deanfoster/Desktop/Github/phillips-ar/phillips-ar/Assets/Scripts/GenerateCustomMeshes.cs" relfile="Assets/Scripts/GenerateCustomMeshes.cs" line="56" column="1" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MultiItemStartupConfigurations />
