@@ -6,6 +6,8 @@ using UnityEngine;
 public class AppManager : MonoBehaviour {
     private GameObject[] masks;
 
+    public string assetBundleName;
+
 	void Start () {
         // Load the 3D mask models
         // Would normally be called after image target reco by AR Core
@@ -21,7 +23,7 @@ public class AppManager : MonoBehaviour {
     GameObject[] LoadBundle() {
         // Load the asset bundle
         AssetBundle bundle = 
-            AssetBundle.LoadFromFile(Path.Combine(Application.streamingAssetsPath, "luncheon"));
+            AssetBundle.LoadFromFile(Path.Combine(Application.streamingAssetsPath, assetBundleName));
 
         // Collect the assets
         if (bundle == null)

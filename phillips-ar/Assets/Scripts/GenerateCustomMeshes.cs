@@ -5,6 +5,8 @@ using UnityEngine;
 /* Script that applies respective sprite meshes to primitives with slight 
  * modification on the z-axis for thickness.
  * Expects instantiated MaskObject prefabs.
+ * 
+ * Uses the ExtrudeMesh() function from MeshExtrusion.cs.
  */
 public class GenerateCustomMeshes : MonoBehaviour {
     public float maskDepth = 1f;
@@ -29,7 +31,22 @@ public class GenerateCustomMeshes : MonoBehaviour {
                     maskObjects[i].transform.GetChild(1).GetComponent<MeshFilter>();
 
                 // Create extruded version of sprite mesh for 3D parent
-                Mesh mesh3D = ExtrudeMesh(Create2DMesh(sprites[i]), maskDepth);
+                Mesh mesh3D = new Mesh();
+                Matrix4x4[] matrix = {
+                        new Matrix4x4(
+                        new Vector4(1, 0, 0, 0),
+                        new Vector4(0, 1, 0, 0),
+                        new Vector4(0, 0, 1, 0),
+                        new Vector4(0, 0, 0, 1)),
+
+                        new Matrix4x4(
+                        new Vector4(1, 0, 0, 0),
+                        new Vector4(0, 1, 0, 0),
+                        new Vector4(0, 0, 1, 0),
+                        new Vector4(0, 0, maskDepth, 1))
+                    };
+
+                MeshExtrusion.ExtrudeMesh(Create2DMesh(sprites[i]), mesh3D, matrix, false);
 
                 // Create 2D mesh for quad
                 Mesh meshQuad = Create2DMesh(sprites[i]);
@@ -60,51 +77,6 @@ public class GenerateCustomMeshes : MonoBehaviour {
             uv = s.uv,
             triangles = System.Array.ConvertAll(s.triangles, v => (int)v)
         };
-        return mesh;
-    }
-
-    // Creates a 3D version of the 2D mesh
-    private Mesh ExtrudeMesh(Mesh mesh, float extrusionFactor) {
-        List<Vector3> extrudedVertices = new List<Vector3>();
-        List<int> extrudedIndices = new List<int>();
-
-        // Copy "frontface" edges of the mesh into list
-        extrudedVertices.AddRange(mesh.vertices);
-
-        // Create "backface" edges of the mesh into array by shifting z values of the vertices
-        foreach(Vector3 v in mesh.vertices) {
-            Vector3 new_vert = new Vector3(v.x, v.y, -extrusionFactor);
-            extrudedVertices.Add(new_vert);
-        }
-
-        // Reassign indices for triangles of extruded mesh
-        int origVertexCount = mesh.vertices.Length;
-        for (int i = 0; i < origVertexCount; i ++) {
-            // Creates a face relative to z-axis on edges connecting both faces
-            int i1 = i;
-            int i2 = (i1 + 1) % origVertexCount;
-            int i3 = i1 + origVertexCount;
-            int i4 = i2 + origVertexCount;
-
-            // Create two triangles that make up the edge face
-            extrudedIndices.Add(i1);
-            extrudedIndices.Add(i2);
-            extrudedIndices.Add(i3);
-
-            extrudedIndices.Add(i3);
-            extrudedIndices.Add(i4);
-            extrudedIndices.Add(i1);
-            Debug.Log("Iteration!");
-        }
-
-        // Assign new vertices and indices to mesh
-        mesh.vertices = extrudedVertices.ToArray();
-        mesh.triangles = extrudedIndices.ToArray();
-
-        // Housekeeping
-        mesh.RecalculateNormals();
-        mesh.RecalculateBounds();
-
         return mesh;
     }
 }

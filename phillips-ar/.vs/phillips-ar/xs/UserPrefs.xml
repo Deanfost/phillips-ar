@@ -1,17 +1,16 @@
 ﻿<Properties StartupConfiguration="{5D94202F-D2F4-75A7-54A5-12DAFDF19DFC}|">
   <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="Unity.Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/GenerateCustomMeshes.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/AppManager.cs">
     <Files>
       <File FileName="Assets/Scripts/AppManager.cs" Line="12" Column="30" />
       <File FileName="Assets/Editor/CreateAssetBundles.cs" Line="17" Column="2" />
-      <File FileName="Assets/Scripts/GenerateCustomMeshes.cs" Line="58" Column="9" />
+      <File FileName="Assets/Scripts/GenerateCustomMeshes.cs" Line="40" Column="50" />
+      <File FileName="Assets/Scripts/MeshExtrusion.cs" Line="23" Column="19" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore>
-      <Breakpoint file="/Users/deanfoster/Desktop/Github/phillips-ar/phillips-ar/Assets/Scripts/GenerateCustomMeshes.cs" relfile="Assets/Scripts/GenerateCustomMeshes.cs" line="56" column="1" />
-    </BreakpointStore>
+    <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MultiItemStartupConfigurations />
