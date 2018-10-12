@@ -1,7 +1,7 @@
 ﻿using UnityEditor;
 using System.IO;
 
-/* Editor script that generates asset bundles to and from a path */
+/* Editor script that generates asset bundles to and from a path. */
 public static class CreateAssetBundles
 {
     [MenuItem("Assets/Build AssetBundles")]
