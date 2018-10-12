@@ -156,28 +156,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f88996ecb681c4cdda625d6e9828e8ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  paintingName: 
+  paintingName: Luncheon at the Boating Party
   extrusionDepth: 0.5
+  maskObject: {fileID: 1128787001828262, guid: 70c40ea27ab6d45a988dd4f2fdca938f, type: 2}
+  blackoutQuad: {fileID: 1448743221661012, guid: 9bed19bdfa8c4444882b720e6310f36a,
+    type: 2}
   sprites:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  maskObjects:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 21300000, guid: 2dd8f57ddb71b45b3b23632eac108d93, type: 3}
+  - {fileID: 21300000, guid: 4fb41c9409df044278377ab37e431377, type: 3}
+  - {fileID: 21300000, guid: d0ca5f56d267248bfb6f690c1666a540, type: 3}
+  - {fileID: 21300000, guid: 4ffa520f3212b457b920d2193d356d5c, type: 3}
+  - {fileID: 21300000, guid: 842724c9ac2434fbdadb924be99d86e0, type: 3}
+  - {fileID: 21300000, guid: 733c474bd9e1140d8bcb3a3bd6d6d36d, type: 3}
+  - {fileID: 21300000, guid: 37f7a025df9e54352ad58545767d5ed7, type: 3}
+  - {fileID: 21300000, guid: c68282559c5b340b59d5ac50d7f84326, type: 3}
+  - {fileID: 21300000, guid: 932d6447d7bbd40b18fb944c277851e8, type: 3}
 --- !u!114 &732595310
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -521,6 +514,48 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1925993559
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4086123400583484, guid: c98055cdc9485446582a9c39222b186d, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4086123400583484, guid: c98055cdc9485446582a9c39222b186d, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4086123400583484, guid: c98055cdc9485446582a9c39222b186d, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4086123400583484, guid: c98055cdc9485446582a9c39222b186d, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4086123400583484, guid: c98055cdc9485446582a9c39222b186d, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4086123400583484, guid: c98055cdc9485446582a9c39222b186d, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4086123400583484, guid: c98055cdc9485446582a9c39222b186d, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4086123400583484, guid: c98055cdc9485446582a9c39222b186d, type: 2}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c98055cdc9485446582a9c39222b186d, type: 2}
+  m_IsPrefabAsset: 0
 --- !u!1 &1998002202
 GameObject:
   m_ObjectHideFlags: 0

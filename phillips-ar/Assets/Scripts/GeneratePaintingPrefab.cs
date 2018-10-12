@@ -16,15 +16,15 @@ using UnityEngine;
  * NOTE: Since operations in SaveMesh() must be carried out synchronously, depending
  * on the amount of sprite/meshes being fed into the script, the editor may hang  
  * for a period of time.
- * 
- * Expects references of instantiated MaskObject prefabs.
  */
 public class GeneratePaintingPrefab : MonoBehaviour {
     public string paintingName;
     public float extrusionDepth = 1f;
-
+    public GameObject maskObject;
+    public GameObject blackoutQuad;
     public Sprite[] sprites;
-    public GameObject[] maskObjects;
+
+    private GameObject[] maskObjects;
 
     // Applies meshes to GameObjects from Sprites
     [ContextMenu("Apply Meshes")]
@@ -35,9 +35,11 @@ public class GeneratePaintingPrefab : MonoBehaviour {
             Debug.LogError("Arrays must be same length!");
         }
         else {
-            // Applies every sprite mesh to its respective MaskObject 
+            // Applies every sprite mesh to a new MaskObject prefab
             for (int i = 0; i < sprites.Length; i++)
             {
+                GameObject newMaskObject = Instantiate(maskObject);
+                maskObjects[i] = newMaskObject;
                 MeshFilter meshFilter3D =
                     maskObjects[i].transform.GetChild(0).GetComponent<MeshFilter>();
                 MeshFilter meshFilterQuad =
@@ -79,6 +81,7 @@ public class GeneratePaintingPrefab : MonoBehaviour {
 
                 // Change names
                 maskObjects[i].name = sprites[i].name;
+                maskObjects[i].tag = "MaskObject";
 
                 string name3D = sprites[i].name + "3D";
                 string nameQuad = sprites[i].name + "Quad";
@@ -88,14 +91,32 @@ public class GeneratePaintingPrefab : MonoBehaviour {
                 // Save generated meshes as mesh assets
                 SaveMesh(mesh3D, sprites[i].name, name3D);
                 SaveMesh(meshQuad, sprites[i].name, nameQuad);
-
-                // Wrap MaskObjects in empty parent
-
-
-                // Add properly sized BlackoutQuad prefab
-
-
             }
+
+            // Wrap MaskObjects in empty parent
+            GameObject empty = new GameObject();
+            empty.name = paintingName;
+            empty.tag = "PaintingPrefab";
+            foreach (GameObject g in maskObjects)
+            {
+                g.transform.parent = empty.transform;
+            }
+
+            // Add properly sized BlackoutQuad prefab
+            GameObject newBlackoutQuad = 
+                Instantiate(blackoutQuad, 
+                            new Vector3(0, 0, extrusionDepth), 
+                            Quaternion.identity) as GameObject;
+            newBlackoutQuad.name = "BlackoutQuad";
+            newBlackoutQuad.transform.parent = empty.transform;
+
+            Bounds parentBounds = new Bounds(empty.transform.position, Vector3.one);
+            for (int i = 0; i < maskObjects.Length; i++) {
+                Mesh m = maskObjects[i].transform.GetChild(0).GetComponent<MeshFilter>().sharedMesh;
+                Vector3 bounds = m.bounds.size;
+                parentBounds.Encapsulate(bounds);
+            }
+            newBlackoutQuad.transform.localScale = parentBounds.size;
         }
     }
 
