@@ -12,10 +12,6 @@ using UnityEngine;
  * 
  * Also saves corresponding generated meshes into a "Meshes" folder in the project 
  * heirarchy. 
- * 
- * NOTE: Since operations in SaveMesh() must be carried out synchronously, depending
- * on the amount of sprite/meshes being fed into the script, the editor may hang  
- * for a period of time.
  */
 public class GeneratePaintingPrefab : MonoBehaviour {
     public string paintingName;
@@ -27,97 +23,88 @@ public class GeneratePaintingPrefab : MonoBehaviour {
     private GameObject[] maskObjects;
 
     // Applies meshes to GameObjects from Sprites
-    [ContextMenu("Apply Meshes")]
-    public void ApplyMeshes() {
+    [ContextMenu("Generate Prefab")]
+    public void GeneratePrefab() {
+        maskObjects = new GameObject[sprites.Length];
 
-        // Check length of arrays
-        if (sprites.Length != maskObjects.Length) {
-            Debug.LogError("Arrays must be same length!");
+        // Applies every sprite mesh to a new MaskObject prefab
+        for (int i = 0; i < sprites.Length; i++)
+        {
+            GameObject newMaskObject = Instantiate(maskObject);
+            maskObjects[i] = newMaskObject;
+            MeshFilter meshFilter3D =
+                maskObjects[i].transform.GetChild(0).GetComponent<MeshFilter>();
+            MeshFilter meshFilterQuad =
+                maskObjects[i].transform.GetChild(1).GetComponent<MeshFilter>();
+
+            Mesh mesh3D = new Mesh();
+            Mesh meshQuad = new Mesh();
+
+            // Create extruded version of sprite mesh for 3D parent
+            Matrix4x4[] matrix = {
+                    new Matrix4x4(
+                    new Vector4(1, 0, 0, 0),
+                    new Vector4(0, 1, 0, 0),
+                    new Vector4(0, 0, 1, 0),
+                    new Vector4(0, 0, 0, 1)),
+
+                    new Matrix4x4(
+                    new Vector4(1, 0, 0, 0),
+                    new Vector4(0, 1, 0, 0),
+                    new Vector4(0, 0, 1, 0),
+                    new Vector4(0, 0, extrusionDepth, 1))
+                };
+            MeshExtrusion.ExtrudeMesh(Create2DMesh(sprites[i]), mesh3D, matrix, false);
+
+            // Create 2D mesh for quad
+            meshQuad = Create2DMesh(sprites[i]);
+
+            // Apply mesh to 3D parent and quad child
+            meshFilter3D.mesh = mesh3D;
+            meshFilterQuad.mesh = meshQuad;
+
+            // Apply sprite material to sprite quad
+            string filePath = "SpriteMaterials/" + sprites[i].name;
+            Material spriteMaterial = Resources.Load(filePath, typeof(Material)) as Material;
+
+            MeshRenderer quadRenderer = maskObjects[i]
+                .transform.GetChild(1).GetComponent<MeshRenderer>();
+            quadRenderer.material = spriteMaterial;
+
+            // Change names
+            maskObjects[i].name = sprites[i].name;
+            maskObjects[i].tag = "MaskObject";
+
+            string name3D = sprites[i].name + "3D";
+            string nameQuad = sprites[i].name + "Quad";
+            mesh3D.name = name3D;
+            meshQuad.name = nameQuad;
         }
-        else {
-            // Applies every sprite mesh to a new MaskObject prefab
-            for (int i = 0; i < sprites.Length; i++)
-            {
-                GameObject newMaskObject = Instantiate(maskObject);
-                maskObjects[i] = newMaskObject;
-                MeshFilter meshFilter3D =
-                    maskObjects[i].transform.GetChild(0).GetComponent<MeshFilter>();
-                MeshFilter meshFilterQuad =
-                    maskObjects[i].transform.GetChild(1).GetComponent<MeshFilter>();
 
-                Mesh mesh3D = new Mesh();
-                Mesh meshQuad = new Mesh();
-
-                // Create extruded version of sprite mesh for 3D parent
-                Matrix4x4[] matrix = {
-                        new Matrix4x4(
-                        new Vector4(1, 0, 0, 0),
-                        new Vector4(0, 1, 0, 0),
-                        new Vector4(0, 0, 1, 0),
-                        new Vector4(0, 0, 0, 1)),
-
-                        new Matrix4x4(
-                        new Vector4(1, 0, 0, 0),
-                        new Vector4(0, 1, 0, 0),
-                        new Vector4(0, 0, 1, 0),
-                        new Vector4(0, 0, extrusionDepth, 1))
-                    };
-                MeshExtrusion.ExtrudeMesh(Create2DMesh(sprites[i]), mesh3D, matrix, false);
-
-                // Create 2D mesh for quad
-                meshQuad = Create2DMesh(sprites[i]);
-
-                // Apply mesh to 3D parent and quad child
-                meshFilter3D.mesh = mesh3D;
-                meshFilterQuad.mesh = meshQuad;
-
-                // Apply sprite material to sprite quad
-                string filePath = "SpriteMaterials/" + sprites[i].name;
-                Material spriteMaterial = Resources.Load(filePath, typeof(Material)) as Material;
-
-                MeshRenderer quadRenderer = maskObjects[i]
-                    .transform.GetChild(1).GetComponent<MeshRenderer>();
-                quadRenderer.material = spriteMaterial;
-
-                // Change names
-                maskObjects[i].name = sprites[i].name;
-                maskObjects[i].tag = "MaskObject";
-
-                string name3D = sprites[i].name + "3D";
-                string nameQuad = sprites[i].name + "Quad";
-                mesh3D.name = name3D;
-                mesh3D.name = nameQuad;
-
-                // Save generated meshes as mesh assets
-                SaveMesh(mesh3D, sprites[i].name, name3D);
-                SaveMesh(meshQuad, sprites[i].name, nameQuad);
-            }
-
-            // Wrap MaskObjects in empty parent
-            GameObject empty = new GameObject();
-            empty.name = paintingName;
-            empty.tag = "PaintingPrefab";
-            foreach (GameObject g in maskObjects)
-            {
-                g.transform.parent = empty.transform;
-            }
-
-            // Add properly sized BlackoutQuad prefab
-            GameObject newBlackoutQuad = 
-                Instantiate(blackoutQuad, 
-                            new Vector3(0, 0, extrusionDepth), 
-                            Quaternion.identity) as GameObject;
-            newBlackoutQuad.name = "BlackoutQuad";
-            newBlackoutQuad.transform.parent = empty.transform;
-
-            Bounds parentBounds = new Bounds(empty.transform.position, Vector3.one);
-            for (int i = 0; i < maskObjects.Length; i++) {
-                Mesh m = maskObjects[i].transform.GetChild(0).GetComponent<MeshFilter>().sharedMesh;
-                Vector3 bounds = m.bounds.size;
-                parentBounds.Encapsulate(bounds);
-            }
-            newBlackoutQuad.transform.localScale = parentBounds.size;
+        // Wrap MaskObjects in empty parent
+        GameObject empty = new GameObject();
+        empty.name = paintingName;
+        empty.tag = "PaintingPrefab";
+        foreach (GameObject g in maskObjects)
+        {
+            g.transform.parent = empty.transform;
         }
+
+        // Add properly sized BlackoutQuad prefab
+        GameObject newBlackoutQuad = 
+            Instantiate(blackoutQuad, 
+                        new Vector3(0, 0, extrusionDepth), 
+                        Quaternion.identity) as GameObject;
+        newBlackoutQuad.name = "BlackoutQuad";
+        newBlackoutQuad.transform.parent = empty.transform;
+
+        Bounds parentBounds = new Bounds(empty.transform.position, Vector3.one);
+        for (int i = 0; i < maskObjects.Length; i++) {
+            Mesh m = maskObjects[i].transform.GetChild(0).GetComponent<MeshFilter>().sharedMesh;
+            Vector3 bounds = m.bounds.size;
+            parentBounds.Encapsulate(bounds);
+        }
+        newBlackoutQuad.transform.localScale = parentBounds.size;
     }
 
     // Create a simple 2D mesh from Sprite vertices
@@ -129,21 +116,5 @@ public class GeneratePaintingPrefab : MonoBehaviour {
             triangles = System.Array.ConvertAll(s.triangles, v => (int)v)
         };
         return mesh;
-    }
-
-    // Save the given mesh as an asset in a folder named "Meshes", with the
-    // given subfolder name.
-    private void SaveMesh(Mesh mesh, string folderName, string fileName) {
-        string folderPath = Application.dataPath + "/Meshes" + "/" + folderName;
-
-        // Make sure the required folder exists, if not, create it
-        Directory.CreateDirectory(folderPath);
-
-        // Save the mesh as an asset
-        string filePath = folderPath + "/" + fileName;
-        filePath = FileUtil.GetProjectRelativePath(filePath);
-
-        AssetDatabase.CreateAsset(mesh, filePath);
-        AssetDatabase.SaveAssets();
     }
 }
