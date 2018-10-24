@@ -96,6 +96,7 @@ public class GeneratePaintingPrefab : MonoBehaviour {
                         new Vector3(0, 0, extrusionDepth), 
                         Quaternion.identity) as GameObject;
         newBlackoutQuad.name = "BlackoutQuad";
+        newBlackoutQuad.tag = "BlackoutQuad";
         newBlackoutQuad.transform.parent = empty.transform;
 
         Bounds parentBounds = new Bounds(empty.transform.position, Vector3.one);
@@ -105,6 +106,16 @@ public class GeneratePaintingPrefab : MonoBehaviour {
             parentBounds.Encapsulate(bounds);
         }
         newBlackoutQuad.transform.localScale = parentBounds.size;
+
+        // Add the PaintingManager script
+        empty.AddComponent<PaintingManager>();
+
+        // Shrink scale of prefab
+        empty.transform.localScale = new Vector3(.1f, .1f, .1f);
+
+        // Rotate the prefab
+        float x = empty.transform.rotation.x;
+        empty.transform.Rotate(new Vector3(x + 90, 0, 0));
     }
 
     // Create a simple 2D mesh from Sprite vertices

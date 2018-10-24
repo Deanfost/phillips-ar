@@ -6,6 +6,8 @@ TagManager:
   tags:
   - PaintingPrefab
   - MaskObject
+  - Mask
+  - BlackoutQuad
   layers:
   - Default
   - TransparentFX
