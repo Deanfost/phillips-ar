@@ -21,7 +21,6 @@ GameObject:
   - component: {fileID: 4857315279034982}
   - component: {fileID: 33405817043720324}
   - component: {fileID: 23668001317863254}
-  - component: {fileID: 65571648917545582}
   m_Layer: 0
   m_Name: 3D Parent
   m_TagString: Untagged
@@ -37,6 +36,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4300697612049062}
+  - component: {fileID: 64313902771128314}
   m_Layer: 0
   m_Name: MaskObject
   m_TagString: Mask
@@ -54,7 +54,6 @@ GameObject:
   - component: {fileID: 4492306068781942}
   - component: {fileID: 33493354589760520}
   - component: {fileID: 23390660794517384}
-  - component: {fileID: 64260382745704194}
   m_Layer: 0
   m_Name: Texture Quad
   m_TagString: Untagged
@@ -187,12 +186,12 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1638474377683708}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
---- !u!64 &64260382745704194
+--- !u!64 &64313902771128314
 MeshCollider:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1638474377683708}
+  m_GameObject: {fileID: 1128787001828262}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
@@ -200,16 +199,4 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 14
   m_SkinWidth: 0.01
-  m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
---- !u!65 &65571648917545582
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1087334089979528}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Mesh: {fileID: 0}

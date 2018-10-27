@@ -145,7 +145,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   paintingPrefabs:
-  - {fileID: 1873315168124936, guid: 8e9ec34d058294884af866b733a1f2fc, type: 2}
+  - {fileID: 1522591256185568, guid: 8e9ec34d058294884af866b733a1f2fc, type: 2}
   hintOverlay: {fileID: 1622737808}
 --- !u!114 &732595309
 MonoBehaviour:
@@ -159,7 +159,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   paintingName: Luncheon at the Boating Party
-  extrusionDepth: 0.5
+  extrusionDepth: 0.005
   maskObject: {fileID: 1128787001828262, guid: 70c40ea27ab6d45a988dd4f2fdca938f, type: 2}
   blackoutQuad: {fileID: 1448743221661012, guid: 9bed19bdfa8c4444882b720e6310f36a,
     type: 2}

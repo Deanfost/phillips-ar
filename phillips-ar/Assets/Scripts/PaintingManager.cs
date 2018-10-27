@@ -1,8 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using GoogleARCore;
-using GoogleARCoreInternal;
 using UnityEngine;
 
 /* A C# object that is responsible for the management of the parent 
@@ -12,36 +11,55 @@ using UnityEngine;
  */
 public class PaintingManager : MonoBehaviour {
     public AugmentedImage image;
+    public Vector3 boundsSize = new Vector3();
+    public static bool piecesCanLevitate = true;
 
-    private Vector3 boundsSize = new Vector3();
+    private bool shouldCalcScale = true;
+    private List<GameObject> children3D = new List<GameObject>();
+    private List<GameObject> childrenQuad = new List<GameObject>();
+    private List<InfoCard> cards = new List<InfoCard>(); 
 
-    private void Start()
-    {
-        foreach (Transform child in gameObject.transform)
-        {
-            if (child.tag == "BlackoutQuad")
+    private void Start() {
+        // Gather all 3D and 2D painting pieces
+        for (int i = 0; i < gameObject.transform.childCount; i++) {
+            Transform t = gameObject.transform.GetChild(i);
+            if (t.tag == "MaskObject")
             {
-                boundsSize = child.GetComponent<Renderer>().bounds.size;
-                break;
+                children3D.Add(t.GetChild(0).gameObject);
+                childrenQuad.Add(t.GetChild(1).gameObject);
             }
         }
     }
 
-    private void Update()
-    {
+    private void Update() {
         if (image == null || image.TrackingState != TrackingState.Tracking) {
             gameObject.SetActive(false);
             return;
         }
 
-        // Scale the prefab to the image target
-        float imageWidth = image.ExtentX;
-        float imageHeight = image.ExtentZ;
-        float sizeX = boundsSize.x;
-        float sizeY = boundsSize.y;
-        Vector3 scale = gameObject.transform.localScale;
-        scale.x = imageWidth * scale.x / sizeX;
-        scale.y = imageHeight * scale.y / sizeY;
-        gameObject.transform.localScale = scale;
+        if (shouldCalcScale) {
+            // Scale the prefab relative to the image target
+            float targetWidth = image.ExtentX;
+            float targetHeight = image.ExtentZ;
+            float currentWidth = boundsSize.x;
+            float currentHeight = boundsSize.y;
+            Vector3 scale = transform.localScale;
+            scale.x = targetWidth * scale.x / currentWidth;
+            scale.y = targetHeight * scale.y / currentHeight;
+            gameObject.transform.localScale = scale;
+            shouldCalcScale = false;
+        }
+
+        gameObject.SetActive(true);
+    }
+
+    // Notify class if pieces should respond to touch input
+    public static void ToggleLevitatePrivileges() {
+        piecesCanLevitate = !piecesCanLevitate;
+    } 
+
+    // Instantiates and inflates a new information card 
+    public static void InflateContextCard() {
+     
     }
 }

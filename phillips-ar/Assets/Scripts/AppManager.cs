@@ -70,9 +70,4 @@ public class AppManager : MonoBehaviour {
         hintOverlay.SetActive(true);
 
     }
-
-    // Todo - add the painting prefab to the given anchor, add context panels
-    private void AddPaintingPrefab(Anchor a) {
-
-    }
 }

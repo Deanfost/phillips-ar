@@ -15,7 +15,7 @@ using UnityEngine;
  */
 public class GeneratePaintingPrefab : MonoBehaviour {
     public string paintingName;
-    public float extrusionDepth = 1f;
+    public float extrusionDepth = .2f;
     public GameObject maskObject;
     public GameObject blackoutQuad;
     public Sprite[] sprites;
@@ -30,12 +30,13 @@ public class GeneratePaintingPrefab : MonoBehaviour {
         // Applies every sprite mesh to a new MaskObject prefab
         for (int i = 0; i < sprites.Length; i++)
         {
-            GameObject newMaskObject = Instantiate(maskObject);
-            maskObjects[i] = newMaskObject;
+            maskObjects[i] = Instantiate(maskObject);
             MeshFilter meshFilter3D =
                 maskObjects[i].transform.GetChild(0).GetComponent<MeshFilter>();
             MeshFilter meshFilterQuad =
                 maskObjects[i].transform.GetChild(1).GetComponent<MeshFilter>();
+            MeshCollider meshColliderQuad = 
+                maskObjects[i].transform.GetChild(1).GetComponent<MeshCollider>();
 
             Mesh mesh3D = new Mesh();
             Mesh meshQuad = new Mesh();
@@ -71,6 +72,13 @@ public class GeneratePaintingPrefab : MonoBehaviour {
                 .transform.GetChild(1).GetComponent<MeshRenderer>();
             quadRenderer.material = spriteMaterial;
 
+            // Add PieceManager object
+            maskObjects[i].AddComponent<PieceManager>();
+
+            // Assign to the MeshCollider for tap recognition
+            MeshCollider mc = maskObjects[i].GetComponent<MeshCollider>();
+            mc.sharedMesh = mesh3D;
+
             // Change names
             maskObjects[i].name = sprites[i].name;
             maskObjects[i].tag = "MaskObject";
@@ -91,10 +99,10 @@ public class GeneratePaintingPrefab : MonoBehaviour {
         }
 
         // Add properly sized BlackoutQuad prefab
-        GameObject newBlackoutQuad = 
-            Instantiate(blackoutQuad, 
-                        new Vector3(0, 0, extrusionDepth), 
-                        Quaternion.identity) as GameObject;
+        GameObject newBlackoutQuad =
+            Instantiate(blackoutQuad,
+                        new Vector3(0, 0, extrusionDepth),
+                        Quaternion.identity);
         newBlackoutQuad.name = "BlackoutQuad";
         newBlackoutQuad.tag = "BlackoutQuad";
         newBlackoutQuad.transform.parent = empty.transform;
@@ -109,9 +117,8 @@ public class GeneratePaintingPrefab : MonoBehaviour {
 
         // Add the PaintingManager script
         empty.AddComponent<PaintingManager>();
-
-        // Shrink scale of prefab
-        empty.transform.localScale = new Vector3(.1f, .1f, .1f);
+        PaintingManager pm = empty.GetComponent<PaintingManager>();
+        pm.boundsSize = parentBounds.size;
 
         // Rotate the prefab
         float x = empty.transform.rotation.x;

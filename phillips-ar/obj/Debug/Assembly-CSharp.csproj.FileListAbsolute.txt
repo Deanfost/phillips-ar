@@ -251,3 +251,6 @@
 /Users/deanfoster/Desktop/Github/phillips-ar/phillips-ar/obj/Debug/Assembly-CSharp.csproj.CopyComplete
 /Users/deanfoster/Desktop/Github/phillips-ar/phillips-ar/obj/Debug/Assembly-CSharp.dll
 /Users/deanfoster/Desktop/Github/phillips-ar/phillips-ar/obj/Debug/Assembly-CSharp.pdb
+/Users/deanfoster/Desktop/Github/phillips-ar/phillips-ar/Temp/bin/Debug/UnityEditor.UI.dll
+/Users/deanfoster/Desktop/Github/phillips-ar/phillips-ar/Temp/bin/Debug/UnityEditor.UI.dll.mdb
+/Users/deanfoster/Desktop/Github/phillips-ar/phillips-ar/Temp/bin/Debug/UnityEditor.UI.xml
