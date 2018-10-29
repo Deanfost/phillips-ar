@@ -1,4 +1,0 @@
-#Fri Oct 26 16:13:59 EDT 2018
-base.0=/Users/deanfoster/Desktop/Github/phillips-ar/phillips-ar/Temp/gradleOut/build/intermediates/transforms/dex/release/0
-path.0=classes.dex
-renamed.0=classes.dex

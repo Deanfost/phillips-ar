@@ -10,9 +10,16 @@ using UnityEngine;
  * 
  */
 public class PaintingManager : MonoBehaviour {
+    public GameObject UICard;
+
+    [HideInInspector]
     public AugmentedImage image;
+    [HideInInspector]
     public Vector3 boundsSize = new Vector3();
+    [HideInInspector]
     public static bool piecesCanLevitate = true;
+    [HideInInspector]
+    public static float floatFactor = .2f;
 
     private bool shouldCalcScale = true;
     private List<GameObject> children3D = new List<GameObject>();
@@ -25,6 +32,7 @@ public class PaintingManager : MonoBehaviour {
             Transform t = gameObject.transform.GetChild(i);
             if (t.tag == "MaskObject")
             {
+                t.GetComponent<PieceManager>().UICard = UICard;
                 children3D.Add(t.GetChild(0).gameObject);
                 childrenQuad.Add(t.GetChild(1).gameObject);
             }
@@ -58,8 +66,8 @@ public class PaintingManager : MonoBehaviour {
         piecesCanLevitate = !piecesCanLevitate;
     } 
 
-    // Instantiates and inflates a new information card 
-    public static void InflateContextCard() {
+    // Instantiates and inflates a new general information card
+    public static void InflateBioCard() {
      
     }
 }

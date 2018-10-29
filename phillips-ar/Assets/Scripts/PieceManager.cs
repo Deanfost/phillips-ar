@@ -5,11 +5,12 @@ using UnityEngine;
 /* Responsible for managing individual pieces of the PaintingPrefab. Handles
  * input response and invokes callbacks to PaintingManager.cs.
  */
-public class PieceManager : MonoBehaviour {
-    public float floatFactor = .005f;
+public class PieceManager : MonoBehaviour
+{
+    public GameObject UICard;
 
     private bool floatForward = true;
-    private bool reactToInput = true;
+
     private GameObject mesh3D;
     private GameObject meshQuad;
 
@@ -23,45 +24,34 @@ public class PieceManager : MonoBehaviour {
     private void OnMouseDown()
     {
         // Toggle levitation if no other pieces are floating (and we're not the cropped background)
-        if (name != "[crop]") {
-            if (reactToInput) {
-                if (floatForward && PaintingManager.piecesCanLevitate)
-                {
-                    StartCoroutine(LevitateTransition());
-                    reactToInput = false;
-                    floatForward = !floatForward;
-                    PaintingManager.ToggleLevitatePrivileges();
-                }
-                else if (!floatForward && !PaintingManager.piecesCanLevitate)
-                {
-                    StartCoroutine(LevitateTransition());
-                    reactToInput = false;
-                    floatForward = !floatForward;
-                    PaintingManager.ToggleLevitatePrivileges();
-                }
+        if (name != "[crop]")
+        {
+            if (PaintingManager.piecesCanLevitate && floatForward)
+            {
+                transform.Translate(new Vector3(0f, 0f, -PaintingManager.floatFactor));
+                InflateContextCard();
+                PaintingManager.ToggleLevitatePrivileges();
+                floatForward = !floatForward;
+            }
+            else if (!PaintingManager.piecesCanLevitate && !floatForward)
+            {
+                transform.Translate(new Vector3(0f, 0f, PaintingManager.floatFactor));
+                PaintingManager.ToggleLevitatePrivileges();
+                floatForward = !floatForward;
             }
         }
     }
 
-    // Animates the piece back and forth
-    private IEnumerator LevitateTransition() {
-        if (floatForward) {
-            float targetZPos = transform.position.z - floatFactor;
-            while (transform.position.z > targetZPos) {
-                transform.Translate(0f, 0f, -.0008f);
-                yield return new WaitForSeconds(.01f);
-            }
+    // Instantiates and inflates a ContextCard next to the piece containing information on that piece
+    private void InflateContextCard() {
+        // Calculate scale of card (use the bounds to figure it out)
+        MeshFilter mf = GetComponent<MeshFilter>();
+        Mesh m = mf.mesh;
 
-            reactToInput = true;
-        }
-        else  {
-            float targetZPos = transform.position.z + floatFactor;
-            while (transform.position.z < targetZPos) {
-                transform.Translate(0f, 0f, .0008f);
-                yield return new WaitForSeconds(.01f);
-            }
+        // Calculate new position based off of piece position relative to rest of painting (left or right side?)
+        Vector3 position = new Vector3(transform.position.x + transform.position.y, transform.position.z - .05f);
 
-            reactToInput = true;
-        }
+
+        GameObject card = Instantiate(UICard, position, Quaternion.identity);
     }
 }

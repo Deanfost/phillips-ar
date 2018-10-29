@@ -79,6 +79,9 @@ public class GeneratePaintingPrefab : MonoBehaviour {
             MeshCollider mc = maskObjects[i].GetComponent<MeshCollider>();
             mc.sharedMesh = mesh3D;
 
+            // Recalculate normals
+            mesh3D.RecalculateNormals();
+
             // Change names
             maskObjects[i].name = sprites[i].name;
             maskObjects[i].tag = "MaskObject";

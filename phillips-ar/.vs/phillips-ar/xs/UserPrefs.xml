@@ -1,12 +1,12 @@
 ﻿<Properties StartupConfiguration="{5D94202F-D2F4-75A7-54A5-12DAFDF19DFC}|">
   <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="Unity.Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/PaintingManager.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/PieceManager.cs">
     <Files>
-      <File FileName="Assets/Scripts/AppManager.cs" Line="50" Column="98" />
-      <File FileName="Assets/Scripts/GeneratePaintingPrefab.cs" Line="88" Column="38" />
-      <File FileName="Assets/Scripts/PaintingManager.cs" Line="78" Column="5" />
-      <File FileName="Assets/Scripts/PieceManager.cs" Line="21" Column="25" />
-      <File FileName="Assets/Scripts/InfoCard.cs" Line="17" Column="16" />
+      <File FileName="Assets/Scripts/AppManager.cs" Line="51" Column="74" />
+      <File FileName="Assets/Scripts/GeneratePaintingPrefab.cs" Line="84" Column="1" />
+      <File FileName="Assets/Scripts/PaintingManager.cs" Line="30" Column="14" />
+      <File FileName="Assets/Scripts/PieceManager.cs" Line="26" Column="4" />
+      <File FileName="Assets/Scripts/InfoCard.cs" Line="15" Column="3" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
