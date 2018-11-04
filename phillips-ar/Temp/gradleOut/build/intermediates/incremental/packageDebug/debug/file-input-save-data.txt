@@ -1,5 +1,5 @@
 #Internal package file, do not edit.
-#Mon Oct 29 18:46:59 EDT 2018
+#Sat Nov 03 22:07:38 EDT 2018
 2.path=bin/Data/Managed/UnityEngine.VRModule.dll
 14.set=ASSET
 107.baseType=DIRECTORY

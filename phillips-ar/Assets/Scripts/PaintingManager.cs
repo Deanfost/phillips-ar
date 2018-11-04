@@ -10,16 +10,16 @@ using UnityEngine;
  * 
  */
 public class PaintingManager : MonoBehaviour {
-    public GameObject UICard;
+    public GameObject UICardPrefab;
 
     [HideInInspector]
     public AugmentedImage image;
     [HideInInspector]
     public Vector3 boundsSize = new Vector3();
     [HideInInspector]
-    public static bool piecesCanLevitate = true;
-    [HideInInspector]
-    public static float floatFactor = .2f;
+    public float floatFactor = .2f;
+
+    private bool piecesCanLevitate = true;
 
     private bool shouldCalcScale = true;
     private List<GameObject> children3D = new List<GameObject>();
@@ -32,7 +32,8 @@ public class PaintingManager : MonoBehaviour {
             Transform t = gameObject.transform.GetChild(i);
             if (t.tag == "MaskObject")
             {
-                t.GetComponent<PieceManager>().UICard = UICard;
+                t.GetComponent<PieceManager>().UICardPrefab = UICardPrefab;
+                t.GetComponent<PieceManager>().paintingManager = this;
                 children3D.Add(t.GetChild(0).gameObject);
                 childrenQuad.Add(t.GetChild(1).gameObject);
             }
@@ -62,9 +63,14 @@ public class PaintingManager : MonoBehaviour {
     }
 
     // Notify class if pieces should respond to touch input
-    public static void ToggleLevitatePrivileges() {
+    public void ToggleLevitatePrivileges() {
         piecesCanLevitate = !piecesCanLevitate;
     } 
+
+    // Return levitate privileges
+    public bool CheckLevitatePrivileges() {
+        return piecesCanLevitate;
+    }
 
     // Instantiates and inflates a new general information card
     public static void InflateBioCard() {
