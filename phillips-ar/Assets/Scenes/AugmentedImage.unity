@@ -145,7 +145,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   paintingPrefabs:
-  - {fileID: 1507049992464146, guid: 8e9ec34d058294884af866b733a1f2fc, type: 2}
+  - {fileID: 0}
   hintOverlay: {fileID: 1622737808}
 --- !u!114 &732595309
 MonoBehaviour:
@@ -158,20 +158,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f88996ecb681c4cdda625d6e9828e8ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  paintingName: Luncheon at the Boating Party
+  paintingName: Luncheon
   extrusionDepth: 0.01
+  bioCard: {fileID: 1197182600296266, guid: 6caf987f33e6d4cc9aec36d13b3d1ea7, type: 2}
+  contextCard: {fileID: 1197182600296266, guid: 6caf987f33e6d4cc9aec36d13b3d1ea7,
+    type: 2}
+  controlCard: {fileID: 1197182600296266, guid: 6caf987f33e6d4cc9aec36d13b3d1ea7,
+    type: 2}
   maskObject: {fileID: 1128787001828262, guid: 70c40ea27ab6d45a988dd4f2fdca938f, type: 2}
   blackoutQuad: {fileID: 1448743221661012, guid: 9bed19bdfa8c4444882b720e6310f36a,
     type: 2}
   sprites:
   - {fileID: 21300000, guid: 2dd8f57ddb71b45b3b23632eac108d93, type: 3}
   - {fileID: 21300000, guid: 4fb41c9409df044278377ab37e431377, type: 3}
-  - {fileID: 21300000, guid: d0ca5f56d267248bfb6f690c1666a540, type: 3}
   - {fileID: 21300000, guid: 4ffa520f3212b457b920d2193d356d5c, type: 3}
   - {fileID: 21300000, guid: 842724c9ac2434fbdadb924be99d86e0, type: 3}
   - {fileID: 21300000, guid: 733c474bd9e1140d8bcb3a3bd6d6d36d, type: 3}
   - {fileID: 21300000, guid: 37f7a025df9e54352ad58545767d5ed7, type: 3}
   - {fileID: 21300000, guid: c68282559c5b340b59d5ac50d7f84326, type: 3}
+  - {fileID: 21300000, guid: d0ca5f56d267248bfb6f690c1666a540, type: 3}
   - {fileID: 21300000, guid: 932d6447d7bbd40b18fb944c277851e8, type: 3}
 --- !u!114 &732595310
 MonoBehaviour:

@@ -15,6 +15,7 @@ public static class SaveMesh {
     {
         // Collect references to all MaskObjects in the scene
         GameObject[] maskObjects = GameObject.FindGameObjectsWithTag("MaskObject");
+        string paintingName = GameObject.FindGameObjectWithTag("PaintingPrefab").name;
 
         // Grab meshes, save to Assets
         foreach(GameObject g in maskObjects) {
@@ -25,14 +26,14 @@ public static class SaveMesh {
             string meshQuadName = meshQuad.name;
 
             // Make sure the required folder exists
-            string folderPath = "Assets/Meshes/" + objectName;
-            if(!Directory.Exists(folderPath)) {
-                Directory.CreateDirectory(folderPath);
+            string rootFolderPath = "Assets/Meshes/" + paintingName;
+            if(!Directory.Exists(rootFolderPath)) {
+                Directory.CreateDirectory(rootFolderPath);
             }
 
             // Save each mesh as an asset
-            string filePath3D = folderPath + "/" + mesh3DName + ".asset";
-            string filePathQuad = folderPath + "/" + meshQuadName + ".asset";
+            string filePath3D = rootFolderPath + "/" + mesh3DName + ".asset";
+            string filePathQuad = rootFolderPath + "/" + meshQuadName + ".asset";
 
             AssetDatabase.CreateAsset(mesh3D, filePath3D);
             AssetDatabase.CreateAsset(meshQuad, filePathQuad);

@@ -16,6 +16,9 @@ using UnityEngine;
 public class GeneratePaintingPrefab : MonoBehaviour {
     public string paintingName;
     public float extrusionDepth = .2f;
+    public GameObject bioCard;
+    public GameObject contextCard;
+    public GameObject controlCard;
     public GameObject maskObject;
     public GameObject blackoutQuad;
     public Sprite[] sprites;
@@ -30,6 +33,7 @@ public class GeneratePaintingPrefab : MonoBehaviour {
         // Applies every sprite mesh to a new MaskObject prefab
         for (int i = 0; i < sprites.Length; i++)
         {
+            // Create a new MaskObject
             maskObjects[i] = Instantiate(maskObject);
             MeshFilter meshFilter3D =
                 maskObjects[i].transform.GetChild(0).GetComponent<MeshFilter>();
@@ -64,8 +68,50 @@ public class GeneratePaintingPrefab : MonoBehaviour {
             meshFilter3D.mesh = mesh3D;
             meshFilterQuad.mesh = meshQuad;
 
+            // Move the quad child forward to avoid clipping
+            maskObjects[i].transform.GetChild(1).transform.Translate(0f, 0f, -.01f);
+
+            // Assign to the MeshCollider for tap recognition
+            MeshCollider meshCollider = maskObjects[i].GetComponent<MeshCollider>();
+            meshCollider.sharedMesh = mesh3D;
+
+            // Add position nodes to mark edges of mesh
+            Vector3 centerOfMesh = mesh3D.bounds.center;
+            float meshWidthHalf = mesh3D.bounds.extents.x;
+            float meshHeightHalf = mesh3D.bounds.extents.y;
+
+            GameObject positionLeft = new GameObject();
+            GameObject positionRight = new GameObject();
+            GameObject positionTop = new GameObject();
+            GameObject positionBottom = new GameObject();
+
+            positionLeft.transform.parent = maskObjects[i].transform;
+            positionRight.transform.parent = maskObjects[i].transform;
+            positionTop.transform.parent = maskObjects[i].transform;
+            positionBottom.transform.parent = maskObjects[i].transform;
+
+            positionLeft.transform.position = meshCollider.bounds.center;
+            positionRight.transform.position = meshCollider.bounds.center;
+            positionTop.transform.position = meshCollider.bounds.center;
+            positionBottom.transform.position = meshCollider.bounds.center;
+
+            positionLeft.transform.rotation = maskObjects[i].transform.rotation;
+            positionRight.transform.rotation = maskObjects[i].transform.rotation;
+            positionTop.transform.rotation = maskObjects[i].transform.rotation;
+            positionBottom.transform.rotation = maskObjects[i].transform.rotation;
+
+            positionLeft.transform.Translate(-meshWidthHalf, 0f, 0f);
+            positionRight.transform.Translate(meshWidthHalf, 0f, 0f);
+            positionTop.transform.Translate(0f, meshHeightHalf, 0f);
+            positionBottom.transform.Translate(0f, -meshHeightHalf, 0f);
+
+            positionLeft.name = "PositionLeft";
+            positionRight.name = "PositionRight";
+            positionTop.name = "PositionTop";
+            positionBottom.name = "PositionBottom";
+
             // Apply sprite material to sprite quad
-            string filePath = "SpriteMaterials/" + sprites[i].name;
+            string filePath = "SpriteMaterials/" + paintingName + "/" + sprites[i].name;
             Material spriteMaterial = Resources.Load(filePath, typeof(Material)) as Material;
 
             MeshRenderer quadRenderer = maskObjects[i]
@@ -75,9 +121,12 @@ public class GeneratePaintingPrefab : MonoBehaviour {
             // Add PieceManager object
             maskObjects[i].AddComponent<PieceManager>();
 
-            // Assign to the MeshCollider for tap recognition
-            MeshCollider mc = maskObjects[i].GetComponent<MeshCollider>();
-            mc.sharedMesh = mesh3D;
+            // Add an instance of the card prefab for each piece for positioning later
+            GameObject contextCardInstance = Instantiate(contextCard,
+                                                         centerOfMesh, 
+                                                         maskObjects[i].transform.rotation);
+            contextCardInstance.transform.parent = maskObjects[i].transform;
+            contextCardInstance.name = "ContextCard";
 
             // Recalculate normals
             mesh3D.RecalculateNormals();
@@ -100,6 +149,19 @@ public class GeneratePaintingPrefab : MonoBehaviour {
         {
             g.transform.parent = empty.transform;
         }
+
+        // Add the instances of the card prefabs for positioning later
+        GameObject bioCardInstance = Instantiate(bioCard,
+                                         empty.transform.position,
+                                         empty.transform.rotation);
+        bioCardInstance.transform.parent = empty.transform;
+        bioCardInstance.name = "BioCard";
+
+        GameObject controlCardInstance = Instantiate(controlCard,
+                                                     empty.transform.position,
+                                                     empty.transform.rotation);
+        controlCardInstance.transform.parent = empty.transform;
+        controlCardInstance.name = "ControlCard";
 
         // Add properly sized BlackoutQuad prefab
         GameObject newBlackoutQuad =

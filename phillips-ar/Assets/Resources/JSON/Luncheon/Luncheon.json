@@ -1,0 +1,83 @@
+{
+  "bioCard:": {
+    "paintingName": "The Luncheon at the Boating Party",
+    "artist": "Pierre-Auguste Renoir",
+    "yearOfWork": "1880-1881",
+    "category": "Impressionism",
+    "imageName": "renoir",
+    "description": {
+      "paragraph1": "The Luncheon at the Boating Party was created by
+      Pierre-Auguste Renoir in 1881. Renoir was born on February 25, 1841, in
+      Limoges, France, and died on December 3, 1919.",
+      "paragraph2": "The painting was at the top of The Phillips Collection's
+      wish list in the 1950’s as part of a ‘master collection'. Duncan Phillips
+      originally had first encountered it in 1911, under art dealer Paul
+      Durand-Ruel. He bought the painting in 1923 for a final price of $123,000.",
+      "paragraph3": "Duncan Phillips once remarked that the Phillips Collection
+      was to be the owner of one of the greatest paintings in the world,
+      and that people would travel miles to see a piece that he believed would
+      do more for the collection than all of the other works combined."
+    }
+  },
+  "pieces": [
+    {
+      "pieceName": "Aline Charigot",
+      "imageName": "0",
+      "description": "A seamstress who holds an affenpinscher dog, sitting near
+      the bottom left of the scene. She is also the wife of Renoir, married in
+      1890. They had three sons."
+    },
+    {
+      "pieceName": "Alphonse Fournaise Jr.",
+      "imageName": "",
+      "description": "The son of the proprietor, placed on the far left of the
+      scene, wearing a straw hat. Alphonse was responsible for the boat rental,
+      and placed standing near his sister, Louise-Alphonse Fournaise."
+    },
+    {
+      "pieceName": "Ellen Andrée",
+      "imageName": "2",
+      "description": "An actress and model who drinks from a glass in the
+      center of the scene. Seated across from her is the Baron Raoul Barbier,
+      the former mayor of Saigon."
+    },
+    {
+      "pieceName": "Eugène, Paul, and Jeanne",
+      "imageName": "",
+      "description": "Eugène Pierre Lestringez, and Paul Lhote are placed in the
+      top right corner of the scene, flirting with Jeanne Samary, an actress."
+    },
+    {
+      "pieceName": "Gustave, Angèle, and Adrien",
+      "imageName": "",
+      "description": "Gustave Caillebotte, Angèle Legault, and Adrien Maggiolo
+      are placed sitting in the right foreground of the scene. Gustave wears a
+      flat-topped boater's hat, sitting next to Angèle, an actress and journalist.
+      An art patron, painter, and important figure in the impressionist circle,
+      Caillebotte was also an avid boatman and drew on that subject for several
+      works."
+    },
+    {
+      "pieceName": "Louise-Alphonsine Fournaise",
+      "imageName": "",
+      "description": "The daughter of the proprietor, leaning on the railing on
+      the left of the scene, wearing a straw hat like her brother, Alponse
+      Fournaise Jr."
+    },
+    {
+      "pieceName": "Raoul Barbier",
+      "imageName": "",
+      "description": "The former mayor of Saigon is placed seated across from
+      Ellen Andrée, speaking to Renoir's daughter, Lousie-Alphonsine Fournaise."
+    },
+    {
+      "pieceName": "Charles Ephrussi and Jules Laforgue",
+      "imageName": "7",
+      "description": "A Wealthy amateur art historian, collector, and editor of
+      the Gazette des Beaux-Arts, Ephrussi is placed wearing a top hat in the
+      background of the scene. The younger man to whom Ephrussi appears to be
+      speaking, more casually attired in a brown coat and cap, may be Jules
+      Laforgue, his personal secretary and also a poet and critic."
+    }
+  ]
+}

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,34 +9,39 @@ using UnityEngine;
 public class PieceManager : MonoBehaviour
 {
     [HideInInspector]
-    public GameObject UICardPrefab;
-    [HideInInspector]
     public PaintingManager paintingManager;
 
+    [SerializeField]
+    private GameObject contextCardInstance;
     private bool floatForward = true;
     private float moveStep = .025f;
     private readonly float scaleX = .35f;
     private readonly float scaleY = .4f;
-    //private readonly float horiMargin = .1f;
-    //private readonly float zOffset = .02f;
+    private readonly float horiMargin = .02f;
 
-    private MeshCollider pieceCollider;
+    private MeshRenderer pieceRenderer;
     private GameObject parent3D;
     private GameObject textureQuad;
     private GameObject contextCard;
     private GameObject targetPositionNode;
 
+    private string JSONFilePath;
+
     private void Start()
     {
+        // Setup references
         parent3D = transform.GetChild(0).gameObject;
         textureQuad = transform.GetChild(1).gameObject;
-        pieceCollider = GetComponent<MeshCollider>();
+        pieceRenderer = GetComponent<MeshRenderer>();
 
         // Setup the target position node
         targetPositionNode = new GameObject();
         targetPositionNode.transform.position = transform.position;
         targetPositionNode.transform.parent = transform.parent;
         targetPositionNode.transform.rotation = targetPositionNode.transform.parent.rotation;
+
+        // Get the reference to Context Card
+        
     }
 
     private void Update()
@@ -56,7 +62,7 @@ public class PieceManager : MonoBehaviour
                 targetPositionNode.transform.Translate(0f, 0f, -paintingManager.floatFactor);
                 paintingManager.ToggleLevitatePrivileges();
                 floatForward = false;
-                StartCoroutine(DelayCardInflation());
+                //StartCoroutine(DelayCardInflation());
             }
             else if (!paintingManager.CheckLevitatePrivileges() && !floatForward)
             {
@@ -64,47 +70,22 @@ public class PieceManager : MonoBehaviour
                 targetPositionNode.transform.Translate(0f, 0f, paintingManager.floatFactor);
                 paintingManager.ToggleLevitatePrivileges();
                 floatForward = true;
-                DeflateContextCard();
+                //DeflateContextCard();
             }
         }
     }
 
-    // Instantiates and inflates a Context Card next to the piece containing information on that piece
+    // Populates the context card with information on the piece
     private void InflateContextCard() {
-        // Instantiate the context card
-        contextCard = Instantiate(UICardPrefab, pieceCollider.bounds.center, transform.rotation);
-        contextCard.transform.parent = transform;
+        // Parse the JSON file
 
-        // Scale the contextCard to a percentage of the painting size
-        Vector3 boundsSize = contextCard.GetComponent<BoxCollider2D>().bounds.size;
-        float imageWidth = paintingManager.image.ExtentX;
-        float imageHeight = paintingManager.image.ExtentZ;
-        float currentWidth = boundsSize.x;
-        float currentHeight = boundsSize.y;
+        // Get references to UI elements
 
-        Vector3 newScale = new Vector3
-        {
-            x = imageWidth * contextCard.transform.localScale.x * scaleX / currentWidth,
-            y = imageHeight * contextCard.transform.localScale.y * scaleY / currentHeight
-        };
-        newScale.y = newScale.y * 2f;
-
-        contextCard.transform.localScale = newScale;
-
-        // Calculate new position 
-        Sprite cardSprite = contextCard.GetComponent<SpriteRenderer>().sprite;
-        float cardHalfWidth = cardSprite.rect.width /
-                                        cardSprite.pixelsPerUnit / 2 /
-                                        contextCard.transform.localScale.x;
-        Debug.Log(contextCard.transform.localScale);
-        float translation = pieceCollider.bounds.extents.x;
-
-        // Position the card to the right of the piece
-        contextCard.transform.Translate(translation, 0, 0);
-        float difference = contextCard.transform.position.x - pieceCollider.bounds.center.x;
-        Debug.Log(difference);
+        // Populate information
+        
+       
     }
-
+     
     // Destroys the inflated Context Card
     private void DeflateContextCard() {
         Destroy(contextCard);
