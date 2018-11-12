@@ -13,28 +13,25 @@ public class PaintingManager : MonoBehaviour {
     [HideInInspector]
     public AugmentedImage image;
     [HideInInspector]
-    public Vector3 boundsSize = new Vector3(); // Assigned during prefab generation
+    public Bounds bounds; // Assigned during prefab generation
     [HideInInspector]
     public float floatFactor = .2f;
 
-    public float targetInfoCardWidth = .8f;
-    public float minInfoCardHeight = .12f;
-    public float cardMargin = .02f;
+    public GameObject bioCard;
+    public GameObject controlCard;
 
-    [SerializeField]
-    private GameObject bioCard;
     private bool piecesCanLevitate = true;
     private bool shouldCalcScale = true;
-    private bool shouldInflateCard = true;
+    private bool shouldInitBioCard = true;
 
     private List<GameObject> children3D = new List<GameObject>();
     private List<GameObject> childrenQuad = new List<GameObject>();
-    private InfoCardManager infoCardManager;
 
     private string JSONFilePath;
 
     private void Start() {
-        // Gather all 3D and 2D painting pieces
+        // Gather all 3D and 2D painting pieces, set references
+        Debug.Log("I'm here!");
         for (int i = 0; i < gameObject.transform.childCount; i++) {
             Transform t = gameObject.transform.GetChild(i);
             if (t.tag == "MaskObject")
@@ -53,23 +50,23 @@ public class PaintingManager : MonoBehaviour {
         }
 
         if (shouldCalcScale) {
-            // Scale the prefab relative to the image target
+            // Scale the root container of the prefab relative to the painting
             float targetWidth = image.ExtentX;
             float targetHeight = image.ExtentZ;
-            float currentWidth = boundsSize.x;
-            float currentHeight = boundsSize.y;
+            float currentWidth = bounds.size.x;
+            float currentHeight = bounds.size.y;
             Vector3 scale = transform.localScale;
             scale.x = targetWidth * scale.x / currentWidth;
             scale.y = targetHeight * scale.y / currentHeight;
-            gameObject.transform.localScale = scale;
+            gameObject.transform.parent.localScale = scale;
             shouldCalcScale = false;
         }
 
         gameObject.SetActive(true);
 
         // Instantiate the card if needed 
-        if (shouldInflateCard) {
-            InflateInfoCard();
+        if (shouldInitBioCard) {
+            InitInfoCard();
         }
     }
 
@@ -84,7 +81,7 @@ public class PaintingManager : MonoBehaviour {
     }
 
     // Inflates a new information card next to the model
-    private void InflateInfoCard() {
+    private void InitInfoCard() {
 
     }
 

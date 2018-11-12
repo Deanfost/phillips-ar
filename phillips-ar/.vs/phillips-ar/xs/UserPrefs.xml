@@ -1,12 +1,14 @@
 ﻿<Properties StartupConfiguration="{5D94202F-D2F4-75A7-54A5-12DAFDF19DFC}|">
   <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="Unity.Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/JSONParser.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/ControlCardManager.cs">
     <Files>
-      <File FileName="Assets/Scripts/PaintingManager.cs" Line="26" Column="43" />
-      <File FileName="Assets/Scripts/PieceManager.cs" Line="88" Column="6" />
-      <File FileName="Assets/Scripts/InfoCardManager.cs" Line="14" Column="3" />
-      <File FileName="Assets/Scripts/GeneratePaintingPrefab.cs" Line="132" Column="41" />
-      <File FileName="Assets/Scripts/JSONParser.cs" Line="5" Column="21" />
+      <File FileName="Assets/Scripts/PaintingManager.cs" Line="65" Column="36" />
+      <File FileName="Assets/Scripts/PieceManager.cs" Line="13" Column="35" />
+      <File FileName="Assets/Scripts/GeneratePaintingPrefab.cs" Line="137" Column="13" />
+      <File FileName="Assets/Scripts/AppManager.cs" Line="55" Column="9" />
+      <File FileName="Assets/Scripts/BioCardManager.cs" Line="4" Column="22" />
+      <File FileName="Assets/Scripts/ContextCardManager.cs" Line="4" Column="22" />
+      <File FileName="Assets/Scripts/ControlCardManager.cs" Line="6" Column="7" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />

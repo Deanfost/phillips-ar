@@ -10,9 +10,8 @@ public class PieceManager : MonoBehaviour
 {
     [HideInInspector]
     public PaintingManager paintingManager;
+    public GameObject contextCard;
 
-    [SerializeField]
-    private GameObject contextCardInstance;
     private bool floatForward = true;
     private float moveStep = .025f;
     private readonly float scaleX = .35f;
@@ -22,13 +21,11 @@ public class PieceManager : MonoBehaviour
     private MeshRenderer pieceRenderer;
     private GameObject parent3D;
     private GameObject textureQuad;
-    private GameObject contextCard;
     private GameObject targetPositionNode;
 
     private string JSONFilePath;
 
-    private void Start()
-    {
+    private void Start() {
         // Setup references
         parent3D = transform.GetChild(0).gameObject;
         textureQuad = transform.GetChild(1).gameObject;
@@ -40,43 +37,37 @@ public class PieceManager : MonoBehaviour
         targetPositionNode.transform.parent = transform.parent;
         targetPositionNode.transform.rotation = targetPositionNode.transform.parent.rotation;
 
-        // Get the reference to Context Card
-        
+        // Setup the context card
+        InitContextCard();
     }
 
-    private void Update()
-    {
+    private void Update() {
         // Constantly move the piece towards the target position node
         transform.position = Vector3.MoveTowards(transform.position, targetPositionNode.transform.position,moveStep);
     }
 
     // Catch touch input
-    private void OnMouseDown()
-    {
+    private void OnMouseDown() {
         // Toggle levitation if no other pieces are floating (and we're not the cropped background)
-        if (name != "[crop]")
-        {
-            if (paintingManager.CheckLevitatePrivileges() && floatForward)
-            {
-                // Move the target node forward
+        if (name != "[crop]") {
+            if (paintingManager.CheckLevitatePrivileges() && floatForward) {
+                // Move the target node forward to floating position
                 targetPositionNode.transform.Translate(0f, 0f, -paintingManager.floatFactor);
                 paintingManager.ToggleLevitatePrivileges();
                 floatForward = false;
-                //StartCoroutine(DelayCardInflation());
+                StartCoroutine(DelayContextCardDisplay());
             }
-            else if (!paintingManager.CheckLevitatePrivileges() && !floatForward)
-            {
-                // Move the target node backward
+            else if (!paintingManager.CheckLevitatePrivileges() && !floatForward) {
+                // Move the target node backward to inital position
                 targetPositionNode.transform.Translate(0f, 0f, paintingManager.floatFactor);
                 paintingManager.ToggleLevitatePrivileges();
                 floatForward = true;
-                //DeflateContextCard();
             }
         }
     }
 
-    // Populates the context card with information on the piece
-    private void InflateContextCard() {
+    // Populates the context card with information on the piece 
+    private void InitContextCard() {
         // Parse the JSON file
 
         // Get references to UI elements
@@ -85,18 +76,28 @@ public class PieceManager : MonoBehaviour
         
        
     }
-     
-    // Destroys the inflated Context Card
-    private void DeflateContextCard() {
-        Destroy(contextCard);
+
+    // Display context card animation
+    private IEnumerator DisplayContextCard() {
+        return null;
     }
 
-    // Wait before inflating the Context Card
-    private IEnumerator DelayCardInflation() {
+    // Display context card hide animation
+    private IEnumerator HideContextCard() {
+        return null;
+    }
+
+    // Wait for the piece to be in position before displaying the card
+    private IEnumerator DelayContextCardDisplay() {
         yield return new WaitForSeconds(.5f);
-        // If we're in the forward position, inflate the card
+        // If we're in the forward position, show the card
         if (!floatForward) {
-            InflateContextCard();
+            StartCoroutine(DisplayContextCard());
         }
+    }
+
+    // Wait for the card hide anim to finish before moving the piece back
+    private IEnumerator DelayContextCardMove() {
+        return null;
     }
 }

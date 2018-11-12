@@ -145,7 +145,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   paintingPrefabs:
-  - {fileID: 0}
+  - {fileID: 1606898675747410, guid: 6f678fa2fd7854f8186d53765eb0cd2d, type: 2}
   hintOverlay: {fileID: 1622737808}
 --- !u!114 &732595309
 MonoBehaviour:
@@ -160,10 +160,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   paintingName: Luncheon
   extrusionDepth: 0.01
-  bioCard: {fileID: 1197182600296266, guid: 6caf987f33e6d4cc9aec36d13b3d1ea7, type: 2}
-  contextCard: {fileID: 1197182600296266, guid: 6caf987f33e6d4cc9aec36d13b3d1ea7,
+  bioCard: {fileID: 1314669148323402, guid: 4d1bea8422ec6405c99a07bdf6d6f46b, type: 2}
+  contextCard: {fileID: 1492846602018520, guid: 97cc39e11ef8d47118a43a67728102d1,
     type: 2}
-  controlCard: {fileID: 1197182600296266, guid: 6caf987f33e6d4cc9aec36d13b3d1ea7,
+  controlCard: {fileID: 1036252905742936, guid: fa547729b00c44dcb8dd4add02353daf,
     type: 2}
   maskObject: {fileID: 1128787001828262, guid: 70c40ea27ab6d45a988dd4f2fdca938f, type: 2}
   blackoutQuad: {fileID: 1448743221661012, guid: 9bed19bdfa8c4444882b720e6310f36a,

@@ -8,6 +8,9 @@ TagManager:
   - MaskObject
   - Mask
   - BlackoutQuad
+  - UICard
+  - PaintingWrapper
+  - UI
   layers:
   - Default
   - TransparentFX

@@ -3,15 +3,13 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UI;
 
-/* Script that applies respective sprite meshes to primitives with slight 
- * modification on the z-axis for thickness. Modifies each MaskObject in the 
- * first array for each sprite in second array, containting a container parent,
- * the generated 3D mesh, and a 2D mesh with sprite texture applied. Wraps all 
- * modifed MaskObjects into a name empty object, and adds a BlackoutQuad prefab.
- * 
- * Also saves corresponding generated meshes into a "Meshes" folder in the project 
- * heirarchy. 
+/* Painting Prefab generation script that creates a 2D mesh from each one and extrudes
+ * a 3D version as well. These meshes are then applied to a MaskObject. The
+ * 2D quad is then applied with the sprite material. After all objects are fitted
+ * together like a puzzle, they are then wrapped in their own containing objects
+ * with UI elements added as well. 
  */
 public class GeneratePaintingPrefab : MonoBehaviour {
     public string paintingName;
@@ -68,9 +66,6 @@ public class GeneratePaintingPrefab : MonoBehaviour {
             meshFilter3D.mesh = mesh3D;
             meshFilterQuad.mesh = meshQuad;
 
-            // Move the quad child forward to avoid clipping
-            maskObjects[i].transform.GetChild(1).transform.Translate(0f, 0f, -.01f);
-
             // Assign to the MeshCollider for tap recognition
             MeshCollider meshCollider = maskObjects[i].GetComponent<MeshCollider>();
             meshCollider.sharedMesh = mesh3D;
@@ -118,16 +113,6 @@ public class GeneratePaintingPrefab : MonoBehaviour {
                 .transform.GetChild(1).GetComponent<MeshRenderer>();
             quadRenderer.material = spriteMaterial;
 
-            // Add PieceManager object
-            maskObjects[i].AddComponent<PieceManager>();
-
-            // Add an instance of the card prefab for each piece for positioning later
-            GameObject contextCardInstance = Instantiate(contextCard,
-                                                         centerOfMesh, 
-                                                         maskObjects[i].transform.rotation);
-            contextCardInstance.transform.parent = maskObjects[i].transform;
-            contextCardInstance.name = "ContextCard";
-
             // Recalculate normals
             mesh3D.RecalculateNormals();
 
@@ -135,33 +120,32 @@ public class GeneratePaintingPrefab : MonoBehaviour {
             maskObjects[i].name = sprites[i].name;
             maskObjects[i].tag = "MaskObject";
 
+            // Add an instance of the card prefab for each piece for positioning later
+            if (maskObjects[i].name != "[crop]")
+            {
+                GameObject contextCardInstance = Instantiate(contextCard,
+                                                         centerOfMesh,
+                                                         maskObjects[i].transform.rotation);
+                contextCardInstance.transform.parent = maskObjects[i].transform;
+                contextCardInstance.name = "ContextCard";
+                maskObjects[i].GetComponent<PieceManager>().contextCard = contextCardInstance;
+                contextCardInstance.SetActive(false);
+            }
+
             string name3D = sprites[i].name + "3D";
             string nameQuad = sprites[i].name + "Quad";
             mesh3D.name = name3D;
             meshQuad.name = nameQuad;
         }
 
-        // Wrap MaskObjects in empty parent
-        GameObject empty = new GameObject();
-        empty.name = paintingName;
-        empty.tag = "PaintingPrefab";
+        // Wrap MaskObjects in empty painting parent
+        GameObject paintingEmpty = new GameObject();
+        paintingEmpty.name = "Painting";
+        paintingEmpty.tag = "PaintingPrefab";
         foreach (GameObject g in maskObjects)
         {
-            g.transform.parent = empty.transform;
+            g.transform.parent = paintingEmpty.transform;
         }
-
-        // Add the instances of the card prefabs for positioning later
-        GameObject bioCardInstance = Instantiate(bioCard,
-                                         empty.transform.position,
-                                         empty.transform.rotation);
-        bioCardInstance.transform.parent = empty.transform;
-        bioCardInstance.name = "BioCard";
-
-        GameObject controlCardInstance = Instantiate(controlCard,
-                                                     empty.transform.position,
-                                                     empty.transform.rotation);
-        controlCardInstance.transform.parent = empty.transform;
-        controlCardInstance.name = "ControlCard";
 
         // Add properly sized BlackoutQuad prefab
         GameObject newBlackoutQuad =
@@ -170,9 +154,9 @@ public class GeneratePaintingPrefab : MonoBehaviour {
                         Quaternion.identity);
         newBlackoutQuad.name = "BlackoutQuad";
         newBlackoutQuad.tag = "BlackoutQuad";
-        newBlackoutQuad.transform.parent = empty.transform;
+        newBlackoutQuad.transform.parent = paintingEmpty.transform;
 
-        Bounds parentBounds = new Bounds(empty.transform.position, Vector3.one);
+        Bounds parentBounds = new Bounds(paintingEmpty.transform.position, Vector3.one);
         for (int i = 0; i < maskObjects.Length; i++) {
             Mesh m = maskObjects[i].transform.GetChild(0).GetComponent<MeshFilter>().sharedMesh;
             Vector3 bounds = m.bounds.size;
@@ -181,13 +165,45 @@ public class GeneratePaintingPrefab : MonoBehaviour {
         newBlackoutQuad.transform.localScale = parentBounds.size;
 
         // Add the PaintingManager script
-        empty.AddComponent<PaintingManager>();
-        PaintingManager pm = empty.GetComponent<PaintingManager>();
-        pm.boundsSize = parentBounds.size;
+        paintingEmpty.AddComponent<PaintingManager>();
+        PaintingManager pm = paintingEmpty.GetComponent<PaintingManager>();
+        pm.bounds = parentBounds;
+
+        // Create another empty parent for entire prefab
+        GameObject rootEmpty = new GameObject();
+        rootEmpty.name = paintingName;
+        rootEmpty.tag = "PaintingWrapper";
+
+        // Create an empty parent for the UI cards
+        GameObject UIEmpty = new GameObject();
+        UIEmpty.name = "UICards";
+        UIEmpty.tag = "UI";
+
+        // Attach the empties to the root
+        paintingEmpty.transform.parent = rootEmpty.transform;
+        UIEmpty.transform.parent = rootEmpty.transform;
+
+        // Add the instances of the card prefabs for positioning later
+        GameObject bioCardInstance = Instantiate(bioCard,
+                                                 UIEmpty.transform.position,
+                                                 UIEmpty.transform.rotation);
+        bioCardInstance.transform.parent = UIEmpty.transform;
+        bioCardInstance.name = "BioCard";
+        pm.bioCard = bioCardInstance;
+
+        GameObject controlCardInstance = Instantiate(controlCard,
+                                                     UIEmpty.transform.position,
+                                                     UIEmpty.transform.rotation);
+        controlCardInstance.transform.parent = UIEmpty.transform;
+        controlCardInstance.name = "ControlCard";
+        pm.controlCard = controlCardInstance;
+
+        // REMOVE THIS LATER
+        //controlCard.transform.Translate(0f, -parentBounds.size.y - .05f, 0f);
 
         // Rotate the prefab
-        float x = empty.transform.rotation.x;
-        empty.transform.Rotate(new Vector3(x + 90, 0, 0));
+        float x = rootEmpty.transform.rotation.x;
+        rootEmpty.transform.Rotate(new Vector3(x + 90, 0, 0));
     }
 
     // Create a simple 2D mesh from Sprite vertices
