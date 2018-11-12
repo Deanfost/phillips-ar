@@ -7,14 +7,14 @@ using UnityEngine.UI;
  * for other classes to manipulate the card with. 
  */
 public class ControlCardManager : MonoBehaviour {
+    [HideInInspector]
+    public Text paintingName, paintingArist;
 
-	// Use this for initialization
+    private GameObject canvas;
+
 	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
+        canvas = transform.GetChild(0).GetChild(0).gameObject;
+        paintingName = canvas.transform.GetChild(0).GetComponent<Text>();
+        paintingArist = canvas.transform.GetChild(1).GetComponent<Text>();
 	}
 }

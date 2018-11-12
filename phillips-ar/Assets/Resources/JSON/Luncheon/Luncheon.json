@@ -22,6 +22,7 @@
   "pieces": [
     {
       "pieceName": "Aline Charigot",
+      "caption": "The wife",
       "imageName": "0",
       "description": "A seamstress who holds an affenpinscher dog, sitting near
       the bottom left of the scene. She is also the wife of Renoir, married in
@@ -29,6 +30,7 @@
     },
     {
       "pieceName": "Alphonse Fournaise Jr.",
+      "caption": "The son",
       "imageName": "",
       "description": "The son of the proprietor, placed on the far left of the
       scene, wearing a straw hat. Alphonse was responsible for the boat rental,
@@ -36,6 +38,7 @@
     },
     {
       "pieceName": "Ellen Andrée",
+      "caption": "The actress",
       "imageName": "2",
       "description": "An actress and model who drinks from a glass in the
       center of the scene. Seated across from her is the Baron Raoul Barbier,
@@ -43,12 +46,14 @@
     },
     {
       "pieceName": "Eugène, Paul, and Jeanne",
+      "caption": "The flirts",
       "imageName": "",
       "description": "Eugène Pierre Lestringez, and Paul Lhote are placed in the
       top right corner of the scene, flirting with Jeanne Samary, an actress."
     },
     {
       "pieceName": "Gustave, Angèle, and Adrien",
+      "caption": "The artist, friend, and journalist",
       "imageName": "",
       "description": "Gustave Caillebotte, Angèle Legault, and Adrien Maggiolo
       are placed sitting in the right foreground of the scene. Gustave wears a
@@ -59,6 +64,7 @@
     },
     {
       "pieceName": "Louise-Alphonsine Fournaise",
+      "caption": "The daughter",
       "imageName": "",
       "description": "The daughter of the proprietor, leaning on the railing on
       the left of the scene, wearing a straw hat like her brother, Alponse
@@ -66,12 +72,14 @@
     },
     {
       "pieceName": "Raoul Barbier",
+      "caption": "The mayor",
       "imageName": "",
       "description": "The former mayor of Saigon is placed seated across from
       Ellen Andrée, speaking to Renoir's daughter, Lousie-Alphonsine Fournaise."
     },
     {
       "pieceName": "Charles Ephrussi and Jules Laforgue",
+      "caption": "The collector",
       "imageName": "7",
       "description": "A Wealthy amateur art historian, collector, and editor of
       the Gazette des Beaux-Arts, Ephrussi is placed wearing a top hat in the

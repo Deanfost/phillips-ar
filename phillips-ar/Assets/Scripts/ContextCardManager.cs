@@ -7,14 +7,20 @@ using UnityEngine.UI;
  * for other classes to manipulate the card with. 
  */
 public class ContextCardManager : MonoBehaviour {
+    [HideInInspector]
+    public Text pieceTitle, pieceCaption, pieceParagraph;
 
-	// Use this for initialization
+    private GameObject contentObject;
+
 	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
+        contentObject =
+            transform
+                .GetChild(0)
+                .GetChild(0)
+                .GetChild(0)
+                .GetChild(0).gameObject;
+        pieceTitle = contentObject.transform.GetChild(1).GetComponent<Text>();
+        pieceCaption = contentObject.transform.GetChild(2).GetComponent<Text>();
+        pieceParagraph = contentObject.transform.GetChild(3).GetComponent<Text>();
 	}
 }

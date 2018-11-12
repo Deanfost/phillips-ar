@@ -189,9 +189,9 @@
     <Compile Include="Assets\Scripts\ContextCardManager.cs" />
     <Compile Include="Assets\Scripts\ControlCardManager.cs" />
     <Compile Include="Assets\Scripts\GeneratePaintingPrefab.cs" />
+    <Compile Include="Assets\Scripts\JSONContainer.cs" />
     <Compile Include="Assets\Scripts\MeshExtrusion.cs" />
     <Compile Include="Assets\Scripts\PaintingInfoCard.cs" />
-    <Compile Include="Assets\Scripts\PaintingJSONParser.cs" />
     <Compile Include="Assets\Scripts\PaintingManager.cs" />
     <Compile Include="Assets\Scripts\PieceManager.cs" />
     <None Include="Assets\GoogleARCore\Examples\Common\Materials\Shaders\PlaneGrid.shader" />

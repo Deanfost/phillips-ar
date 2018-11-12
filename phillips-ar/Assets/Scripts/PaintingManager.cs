@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using GoogleARCore;
@@ -16,6 +17,8 @@ public class PaintingManager : MonoBehaviour {
     public Bounds bounds; // Assigned during prefab generation
     [HideInInspector]
     public float floatFactor = .2f;
+    [HideInInspector]
+    public string paintingName;
 
     public GameObject bioCard;
     public GameObject controlCard;
@@ -27,8 +30,6 @@ public class PaintingManager : MonoBehaviour {
     private List<GameObject> children3D = new List<GameObject>();
     private List<GameObject> childrenQuad = new List<GameObject>();
 
-    private string JSONFilePath;
-
     private void Start() {
         // Gather all 3D and 2D painting pieces, set references
         Debug.Log("I'm here!");
@@ -39,6 +40,23 @@ public class PaintingManager : MonoBehaviour {
                 t.GetComponent<PieceManager>().paintingManager = this;
                 children3D.Add(t.GetChild(0).gameObject);
                 childrenQuad.Add(t.GetChild(1).gameObject);
+            }
+        }
+
+        paintingName = transform.parent.name;
+
+        // Join the JSON path
+        string JSONFilePath = "Assets/Resources/JSON/" + paintingName + "/" + paintingName + ".json";
+
+        // Parse the JSON
+        ParseJSON(JSONFilePath);
+
+        // Init the Control, Bio, and Context Cards
+        InitBioAndControlCard();
+        foreach (GameObject g in transform) {
+            if (g.name != "[crop]" && g.tag == "MaskObject") {
+                // Init the Context Cards
+                g.GetComponent<PieceManager>().InitContextCard();
             }
         }
     }
@@ -61,13 +79,7 @@ public class PaintingManager : MonoBehaviour {
             gameObject.transform.parent.localScale = scale;
             shouldCalcScale = false;
         }
-
         gameObject.SetActive(true);
-
-        // Instantiate the card if needed 
-        if (shouldInitBioCard) {
-            InitInfoCard();
-        }
     }
 
     // Notify class if pieces should respond to touch input
@@ -80,23 +92,28 @@ public class PaintingManager : MonoBehaviour {
         return piecesCanLevitate;
     }
 
-    // Inflates a new information card next to the model
-    private void InitInfoCard() {
+    // Initializes Bio Card with information from JSON
+    private void InitBioAndControlCard() {
 
     }
 
-    // Deflates the information card
-    private void DeflateInfoCard() {
-
+    // Parses the JSON file and stores info inside of an object
+    private void ParseJSON(string filePath) {
+        if (File.Exists(filePath)) {
+            string jsonFromFile = File.ReadAllText(filePath);
+        }
+        else {
+            Debug.LogError("Invalid JSON file path!");
+        }
     }
 
-    // Inflates a new control card at the bottom of the model
-    private void InflateControlCard() {
-
+    // Animate the Control and Bio cards in
+    private IEnumerator DisplayUICards() {
+        return null;
     }
 
-    // Deflates the control card 
-    private void DeflateControlCard() {
-
+    // Animate the Control and Bio cards out
+    private IEnumerator HideUICards() {
+        return null;
     }
 }

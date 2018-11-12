@@ -36,9 +36,6 @@ public class PieceManager : MonoBehaviour
         targetPositionNode.transform.position = transform.position;
         targetPositionNode.transform.parent = transform.parent;
         targetPositionNode.transform.rotation = targetPositionNode.transform.parent.rotation;
-
-        // Setup the context card
-        InitContextCard();
     }
 
     private void Update() {
@@ -66,23 +63,17 @@ public class PieceManager : MonoBehaviour
         }
     }
 
-    // Populates the context card with information on the piece 
-    private void InitContextCard() {
-        // Parse the JSON file
+    // Initializes Context Card with information from JSON object
+    public void InitContextCard() {
 
-        // Get references to UI elements
-
-        // Populate information
-        
-       
     }
 
-    // Display context card animation
+    // Animate the Context Card in
     private IEnumerator DisplayContextCard() {
         return null;
     }
 
-    // Display context card hide animation
+    // Animate the Context Card out
     private IEnumerator HideContextCard() {
         return null;
     }
