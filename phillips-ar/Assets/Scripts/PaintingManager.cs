@@ -20,7 +20,7 @@ public class PaintingManager : MonoBehaviour {
     [HideInInspector]
     public string paintingName;
     [HideInInspector]
-    public JSONContainer parsedInfoContainer;
+    public PaintingJSONContainer paintingJSONContainer;
 
     public GameObject bioCard;
     public GameObject controlCard;
@@ -51,9 +51,9 @@ public class PaintingManager : MonoBehaviour {
         if (loadedJSON != null) {
             string textFromFile = loadedJSON.text;
             Debug.Log(textFromFile);
-            parsedInfoContainer = JsonUtility.FromJson<JSONContainer>(textFromFile);
-            Debug.Log("Hello");
-            Debug.Log(parsedInfoContainer.paintingName);
+            JSONObject jsonObject = new JSONObject(textFromFile);
+            paintingJSONContainer = new PaintingJSONContainer(jsonObject);
+            paintingJSONContainer.PrintAllData();
         } 
         else {
             Debug.LogError("Invalid path at " + filePath);
