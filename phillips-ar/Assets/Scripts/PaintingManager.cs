@@ -19,20 +19,20 @@ public class PaintingManager : MonoBehaviour {
     public float floatFactor = .2f;
     [HideInInspector]
     public string paintingName;
+    [HideInInspector]
+    public JSONContainer parsedInfoContainer;
 
     public GameObject bioCard;
     public GameObject controlCard;
 
     private bool piecesCanLevitate = true;
     private bool shouldCalcScale = true;
-    private bool shouldInitBioCard = true;
 
     private List<GameObject> children3D = new List<GameObject>();
     private List<GameObject> childrenQuad = new List<GameObject>();
 
     private void Start() {
         // Gather all 3D and 2D painting pieces, set references
-        Debug.Log("I'm here!");
         for (int i = 0; i < gameObject.transform.childCount; i++) {
             Transform t = gameObject.transform.GetChild(i);
             if (t.tag == "MaskObject")
@@ -43,13 +43,21 @@ public class PaintingManager : MonoBehaviour {
             }
         }
 
-        paintingName = transform.parent.name;
-
         // Join the JSON path
-        string JSONFilePath = "Assets/Resources/JSON/" + paintingName + "/" + paintingName + ".json";
+        string filePath = "JSON/" + paintingName + "/" + paintingName;
 
-        // Parse the JSON
-        ParseJSON(JSONFilePath);
+        // Load and parse the file
+        TextAsset loadedJSON = Resources.Load<TextAsset>(filePath);
+        if (loadedJSON != null) {
+            string textFromFile = loadedJSON.text;
+            Debug.Log(textFromFile);
+            parsedInfoContainer = JsonUtility.FromJson<JSONContainer>(textFromFile);
+            Debug.Log("Hello");
+            Debug.Log(parsedInfoContainer.paintingName);
+        } 
+        else {
+            Debug.LogError("Invalid path at " + filePath);
+        }
 
         // Init the Control, Bio, and Context Cards
         InitBioAndControlCard();
@@ -95,16 +103,6 @@ public class PaintingManager : MonoBehaviour {
     // Initializes Bio Card with information from JSON
     private void InitBioAndControlCard() {
 
-    }
-
-    // Parses the JSON file and stores info inside of an object
-    private void ParseJSON(string filePath) {
-        if (File.Exists(filePath)) {
-            string jsonFromFile = File.ReadAllText(filePath);
-        }
-        else {
-            Debug.LogError("Invalid JSON file path!");
-        }
     }
 
     // Animate the Control and Bio cards in

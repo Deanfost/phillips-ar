@@ -15,8 +15,11 @@ public class GeneratePaintingPrefab : MonoBehaviour {
     public string paintingName;
     public float extrusionDepth = .2f;
     public GameObject bioCard;
+    public Vector3 bioCardScale;
     public GameObject contextCard;
+    public Vector3 contextCardScale;
     public GameObject controlCard;
+    public Vector3 controlCardScale;
     public GameObject maskObject;
     public GameObject blackoutQuad;
     public Sprite[] sprites;
@@ -129,6 +132,7 @@ public class GeneratePaintingPrefab : MonoBehaviour {
                 contextCardInstance.transform.parent = maskObjects[i].transform;
                 contextCardInstance.name = "ContextCard";
                 maskObjects[i].GetComponent<PieceManager>().contextCard = contextCardInstance;
+                contextCardInstance.transform.localScale = contextCardScale;
                 contextCardInstance.SetActive(false);
             }
 
@@ -168,6 +172,7 @@ public class GeneratePaintingPrefab : MonoBehaviour {
         paintingEmpty.AddComponent<PaintingManager>();
         PaintingManager pm = paintingEmpty.GetComponent<PaintingManager>();
         pm.bounds = parentBounds;
+        pm.paintingName = paintingName;
 
         // Create another empty parent for entire prefab
         GameObject rootEmpty = new GameObject();
@@ -189,6 +194,7 @@ public class GeneratePaintingPrefab : MonoBehaviour {
                                                  UIEmpty.transform.rotation);
         bioCardInstance.transform.parent = UIEmpty.transform;
         bioCardInstance.name = "BioCard";
+        bioCardInstance.transform.localScale = bioCardScale;
         pm.bioCard = bioCardInstance;
 
         GameObject controlCardInstance = Instantiate(controlCard,
@@ -196,10 +202,8 @@ public class GeneratePaintingPrefab : MonoBehaviour {
                                                      UIEmpty.transform.rotation);
         controlCardInstance.transform.parent = UIEmpty.transform;
         controlCardInstance.name = "ControlCard";
+        controlCardInstance.transform.localScale = controlCardScale;
         pm.controlCard = controlCardInstance;
-
-        // REMOVE THIS LATER
-        //controlCard.transform.Translate(0f, -parentBounds.size.y - .05f, 0f);
 
         // Rotate the prefab
         float x = rootEmpty.transform.rotation.x;
