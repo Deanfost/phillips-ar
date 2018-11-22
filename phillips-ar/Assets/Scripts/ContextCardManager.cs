@@ -12,7 +12,8 @@ public class ContextCardManager : MonoBehaviour {
 
     private GameObject contentObject;
 
-	void Start () {
+    // Initializes Context Card references
+    public void InitReferences() {
         contentObject =
             transform
                 .GetChild(0)
@@ -22,5 +23,5 @@ public class ContextCardManager : MonoBehaviour {
         pieceTitle = contentObject.transform.GetChild(1).GetComponent<Text>();
         pieceCaption = contentObject.transform.GetChild(2).GetComponent<Text>();
         pieceParagraph = contentObject.transform.GetChild(3).GetComponent<Text>();
-	}
+    }
 }

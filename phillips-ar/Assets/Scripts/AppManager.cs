@@ -18,8 +18,7 @@ public class AppManager : MonoBehaviour {
         new Dictionary<int, GameObject>();
     private List<AugmentedImage> currentAugmentedImages = new List<AugmentedImage>();
 
-    public void Update()
-    {
+    public void Update() {
         if (Input.GetKey(KeyCode.Escape)) {
             Application.Quit();
         }

@@ -124,8 +124,7 @@ public class GeneratePaintingPrefab : MonoBehaviour {
             maskObjects[i].tag = "MaskObject";
 
             // Add an instance of the card prefab for each piece for positioning later
-            if (maskObjects[i].name != "[crop]")
-            {
+            if (maskObjects[i].name != "[crop]") {
                 GameObject contextCardInstance = Instantiate(contextCard,
                                                          centerOfMesh,
                                                          maskObjects[i].transform.rotation);
@@ -146,8 +145,7 @@ public class GeneratePaintingPrefab : MonoBehaviour {
         GameObject paintingEmpty = new GameObject();
         paintingEmpty.name = "Painting";
         paintingEmpty.tag = "PaintingPrefab";
-        foreach (GameObject g in maskObjects)
-        {
+        foreach (GameObject g in maskObjects) {
             g.transform.parent = paintingEmpty.transform;
         }
 

@@ -6,12 +6,12 @@ using UnityEngine;
 /* Responsible for managing individual pieces of the PaintingPrefab. Handles
  * input response and invokes callbacks to PaintingManager.cs.
  */
-public class PieceManager : MonoBehaviour
-{
+public class PieceManager : MonoBehaviour {
     [HideInInspector]
-    public PaintingManager paintingManager;
-    public GameObject contextCard;
+    public PaintingManager paintingManager; // Assiged during prefab generation
+    public GameObject contextCard; // Assigned during prefab generation
 
+    private ContextCardManager contextManager;
     private bool floatForward = true;
     private float moveStep = .025f;
     private readonly float scaleX = .35f;
@@ -30,6 +30,7 @@ public class PieceManager : MonoBehaviour
         parent3D = transform.GetChild(0).gameObject;
         textureQuad = transform.GetChild(1).gameObject;
         pieceRenderer = GetComponent<MeshRenderer>();
+        contextManager = contextCard.GetComponent<ContextCardManager>();
 
         // Setup the target position node
         targetPositionNode = new GameObject();
@@ -64,8 +65,12 @@ public class PieceManager : MonoBehaviour
     }
 
     // Initializes Context Card with information from JSON object
-    public void InitContextCard() {
-
+    public void InitContextCard(PaintingJSONContainer parsedData, int index) {
+        // Set title, caption, and description
+        contextManager.InitReferences();
+        contextManager.pieceTitle.text = parsedData.pieces[index].pieceName;
+        contextManager.pieceCaption.text = parsedData.pieces[index].caption;
+        contextManager.pieceParagraph.text = parsedData.pieces[index].description;
     }
 
     // Animate the Context Card in

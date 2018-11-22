@@ -10,19 +10,18 @@ public class PaintingJSONContainer {
     public string yearOfWork = "";
     public string category = "";
     public string imageName = "";
+    public string description = "";
 
     private JSONObject parsedData;
 
     public PaintingJSONContainer(JSONObject parsedData) {
-        Debug.Log("Hello");
         this.parsedData = parsedData;
         GetTopLevelFields();
         GetDescriptions();
         GetPieces();
     }
 
-    // Store the description paragraphs and piece info objects
-    public List<string> descriptions = new List<string>();
+    // Store the piece objects
     public List<PieceJSON> pieces = new List<PieceJSON>();
 
     // Container for each piece 
@@ -32,8 +31,7 @@ public class PaintingJSONContainer {
         public string imageName;
         public string description;
 
-        public PieceJSON(string pieceName, string caption, string imageName, 
-                         string description) {
+        public PieceJSON(string pieceName, string caption, string imageName, string description) {
             this.pieceName = pieceName;
             this.caption = caption;
             this.imageName = imageName;
@@ -43,16 +41,12 @@ public class PaintingJSONContainer {
 
     // Prints all stored data to the console
     public void PrintAllData() {
-        Debug.Log("Hello I'm printing");
         Debug.Log("Painting Name - " + paintingName);
         Debug.Log("Painting Artist - " + artist);
         Debug.Log("Painting Year - " + yearOfWork);
         Debug.Log("Painting Category - " + category);
         Debug.Log("Painting Image Reference - " + imageName);
-
-        foreach (string p in descriptions) {
-            Debug.Log("Description Paragraph - " + p);
-        }
+        Debug.Log("Description - " + description);
 
         foreach(PieceJSON p in pieces) {
             Debug.Log("Piece Name - " + p.pieceName);
@@ -64,7 +58,6 @@ public class PaintingJSONContainer {
 
     // Collects and assigns top-level fields in the object
     private void GetTopLevelFields() {
-        Debug.Log("Getting top level fields");
         if (parsedData.HasField("paintingName")) {
             paintingName = parsedData.GetField("paintingName").str;
         }
@@ -86,14 +79,26 @@ public class PaintingJSONContainer {
         }
     }
 
-    // Collects and assigns the top-level descriptions 
+    // Gets the description paragraphs
     private void GetDescriptions() {
-        if (parsedData.HasField("descriptions")) {
-            JSONObject paragrahps = parsedData.GetField("descriptions");
-            for (int i = 0; i < paragrahps.Count; i++)
+        if (parsedData.HasField("descriptions"))
+        {
+            Debug.Log("Hello");
+            List<string> stringParagraphs = new List<string>();
+            JSONObject JSONParagraphs = parsedData.GetField("descriptions");
+            for (int i = 0; i < JSONParagraphs.Count; i++)
             {
-                string descriptionParagraph = paragrahps.list[i].str;
-                descriptions.Add(descriptionParagraph);
+                JSONObject innerObject = JSONParagraphs.list[i];
+                string currentParagraph = "";
+                if (innerObject.HasField("paragraph")) {
+                    currentParagraph = innerObject.GetField("paragraph").str;
+                }
+                stringParagraphs.Add(currentParagraph);
+            }
+
+            // Combine all paragraphs into one with proper line seperation
+            foreach (string s in stringParagraphs) {
+                description += s + Environment.NewLine + Environment.NewLine;
             }
         }
     }
@@ -102,9 +107,8 @@ public class PaintingJSONContainer {
     private void GetPieces() {
         if (parsedData.HasField("pieces")) {
             JSONObject piecesList = parsedData.GetField("pieces");
-            for (int i = 0; i < piecesList.Count; i++) {
-                JSONObject piece = piecesList.list[i];
-                GetPiece(piece);
+            foreach (JSONObject j in piecesList.list) {
+                GetPiece(j);
             }
         }
     }
@@ -121,7 +125,7 @@ public class PaintingJSONContainer {
         }
 
         if (piece.HasField("caption")) {
-            pieceCaption = piece.GetField("pieceCaption").str;
+            pieceCaption = piece.GetField("caption").str;
         }
 
         if (piece.HasField("imageName")) {
@@ -132,10 +136,7 @@ public class PaintingJSONContainer {
             pieceDescription = piece.GetField("description").str;
         }
 
-        PieceJSON newPiece = new PieceJSON(pieceName, 
-                                           pieceCaption, 
-                                           pieceImageName, 
-                                           pieceDescription);
+        PieceJSON newPiece = new PieceJSON(pieceName, pieceCaption, pieceImageName, pieceDescription);
         pieces.Add(newPiece);
     }
 }

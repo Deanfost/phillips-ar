@@ -15,7 +15,8 @@ public static class SaveMesh {
     {
         // Collect references to all MaskObjects in the scene
         GameObject[] maskObjects = GameObject.FindGameObjectsWithTag("MaskObject");
-        string paintingName = GameObject.FindGameObjectWithTag("PaintingPrefab").name;
+        string paintingName = GameObject.FindGameObjectWithTag("PaintingPrefab")
+                                        .GetComponent<PaintingManager>().paintingName;
 
         // Grab meshes, save to Assets
         foreach(GameObject g in maskObjects) {

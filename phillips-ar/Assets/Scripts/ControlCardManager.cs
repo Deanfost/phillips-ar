@@ -12,9 +12,10 @@ public class ControlCardManager : MonoBehaviour {
 
     private GameObject canvas;
 
-	void Start () {
+    // Initializes Control Card references
+    public void InitReferences() {
         canvas = transform.GetChild(0).GetChild(0).gameObject;
         paintingName = canvas.transform.GetChild(0).GetComponent<Text>();
         paintingArist = canvas.transform.GetChild(1).GetComponent<Text>();
-	}
+    }
 }
