@@ -96,9 +96,21 @@ public class GeneratePaintingPrefab : MonoBehaviour {
                                                          maskObjects[i].transform.rotation);
                 contextCardInstance.transform.parent = maskObjects[i].transform;
                 contextCardInstance.name = "ContextCard";
-                maskObjects[i].GetComponent<PieceManager>().contextCard = contextCardInstance;
                 contextCardInstance.transform.localScale = contextCardScale;
                 contextCardInstance.SetActive(false);
+
+                // Setup card manager references 
+                PieceManager pieceManager = maskObjects[i].GetComponent<PieceManager>();
+                ContextCardManager contextCardManager = contextCardInstance.GetComponent<ContextCardManager>();
+                pieceManager.contextCard = contextCardInstance;
+                pieceManager.contextManager = contextCardManager;
+
+                Transform contentObject = contextCardInstance.transform
+                                                              .GetChild(0).GetChild(0)
+                                                              .GetChild(0).GetChild(0);
+                contextCardManager.pieceTitle = contentObject.GetChild(1).GetComponent<Text>();
+                contextCardManager.pieceCaption = contentObject.GetChild(2).GetComponent<Text>();
+                contextCardManager.pieceParagraph = contentObject.GetChild(3).GetComponent<Text>();
             }
 
             string name3D = sprites[i].name + "3D";

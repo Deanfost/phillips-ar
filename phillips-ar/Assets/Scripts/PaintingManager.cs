@@ -65,12 +65,8 @@ public class PaintingManager : MonoBehaviour {
 
         // Init the context cards of each piece
         int index = 0;
-        Debug.Log("This is weird af");
         foreach (Transform t in transform) {
-            Debug.Log("Iteration");
             if (t.name != "[crop]" && t.tag == "MaskObject") {
-                Debug.Log("We found a MaskObject");
-                Debug.Log(t.name);
                 t.GetComponent<PieceManager>().InitContextCard(parsedData, index);
                 index++;
             }

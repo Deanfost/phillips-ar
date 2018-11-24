@@ -9,9 +9,11 @@ using UnityEngine;
 public class PieceManager : MonoBehaviour {
     [HideInInspector]
     public PaintingManager paintingManager; // Assiged during prefab generation
-    public GameObject contextCard; // Assigned during prefab generation
+    [HideInInspector]
+    public GameObject contextCard; // Assigned during prefab generatiom
+    [HideInInspector]
+    public ContextCardManager contextManager; // Assigned during prefab generation
 
-    private ContextCardManager contextManager;
     private bool floatForward = true;
     private float moveStep = .025f;
     private readonly float scaleX = .35f;
@@ -30,7 +32,6 @@ public class PieceManager : MonoBehaviour {
         parent3D = transform.GetChild(0).gameObject;
         textureQuad = transform.GetChild(1).gameObject;
         pieceRenderer = GetComponent<MeshRenderer>();
-        contextManager = contextCard.GetComponent<ContextCardManager>();
 
         // Setup the target position node
         targetPositionNode = new GameObject();
@@ -68,20 +69,12 @@ public class PieceManager : MonoBehaviour {
     // Initializes Context Card with information from JSON object
     public void InitContextCard(PaintingJSONContainer parsedData, int index) {
         // Set title, caption, and description
-        Debug.Log("Hello I am doing an init");
         string title = parsedData.pieces[index].pieceName;
         string caption = parsedData.pieces[index].caption;
         string desc = parsedData.pieces[index].description;
-        Debug.Log(title);
-        Debug.Log(caption);
-        Debug.Log(desc);
-        if (contextManager.pieceTitle == null) {
-            Debug.Log("HELP");
-        }
         contextManager.pieceTitle.text = title;
         contextManager.pieceCaption.text = caption;
         contextManager.pieceParagraph.text = desc;
-        Debug.Log("Context card initialized");
     }
 
     // Wait for the piece to be in position before displaying the card
