@@ -17,8 +17,8 @@ public class BioCardManager : MonoBehaviour {
 
     private GameObject contentObject;
 
-    // Initializes Bio Card references
-    public void InitReferences() {
+    private void Awake() {
+        // Setup references
         contentObject = transform
             .GetChild(0)
             .GetChild(0)

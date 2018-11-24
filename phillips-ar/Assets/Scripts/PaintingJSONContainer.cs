@@ -83,7 +83,6 @@ public class PaintingJSONContainer {
     private void GetDescriptions() {
         if (parsedData.HasField("descriptions"))
         {
-            Debug.Log("Hello");
             List<string> stringParagraphs = new List<string>();
             JSONObject JSONParagraphs = parsedData.GetField("descriptions");
             for (int i = 0; i < JSONParagraphs.Count; i++)

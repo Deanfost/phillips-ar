@@ -73,41 +73,6 @@ public class GeneratePaintingPrefab : MonoBehaviour {
             MeshCollider meshCollider = maskObjects[i].GetComponent<MeshCollider>();
             meshCollider.sharedMesh = mesh3D;
 
-            // Add position nodes to mark edges of mesh
-            Vector3 centerOfMesh = mesh3D.bounds.center;
-            float meshWidthHalf = mesh3D.bounds.extents.x;
-            float meshHeightHalf = mesh3D.bounds.extents.y;
-
-            GameObject positionLeft = new GameObject();
-            GameObject positionRight = new GameObject();
-            GameObject positionTop = new GameObject();
-            GameObject positionBottom = new GameObject();
-
-            positionLeft.transform.parent = maskObjects[i].transform;
-            positionRight.transform.parent = maskObjects[i].transform;
-            positionTop.transform.parent = maskObjects[i].transform;
-            positionBottom.transform.parent = maskObjects[i].transform;
-
-            positionLeft.transform.position = meshCollider.bounds.center;
-            positionRight.transform.position = meshCollider.bounds.center;
-            positionTop.transform.position = meshCollider.bounds.center;
-            positionBottom.transform.position = meshCollider.bounds.center;
-
-            positionLeft.transform.rotation = maskObjects[i].transform.rotation;
-            positionRight.transform.rotation = maskObjects[i].transform.rotation;
-            positionTop.transform.rotation = maskObjects[i].transform.rotation;
-            positionBottom.transform.rotation = maskObjects[i].transform.rotation;
-
-            positionLeft.transform.Translate(-meshWidthHalf, 0f, 0f);
-            positionRight.transform.Translate(meshWidthHalf, 0f, 0f);
-            positionTop.transform.Translate(0f, meshHeightHalf, 0f);
-            positionBottom.transform.Translate(0f, -meshHeightHalf, 0f);
-
-            positionLeft.name = "PositionLeft";
-            positionRight.name = "PositionRight";
-            positionTop.name = "PositionTop";
-            positionBottom.name = "PositionBottom";
-
             // Apply sprite material to sprite quad
             string filePath = "SpriteMaterials/" + paintingName + "/" + sprites[i].name;
             Material spriteMaterial = Resources.Load(filePath, typeof(Material)) as Material;
@@ -125,6 +90,7 @@ public class GeneratePaintingPrefab : MonoBehaviour {
 
             // Add an instance of the card prefab for each piece for positioning later
             if (maskObjects[i].name != "[crop]") {
+                Vector3 centerOfMesh = mesh3D.bounds.center;
                 GameObject contextCardInstance = Instantiate(contextCard,
                                                          centerOfMesh,
                                                          maskObjects[i].transform.rotation);

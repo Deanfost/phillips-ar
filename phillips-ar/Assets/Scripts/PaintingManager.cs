@@ -31,9 +31,6 @@ public class PaintingManager : MonoBehaviour {
     private bool piecesCanLevitate = true;
     private bool shouldCalcScale = true;
 
-    private List<GameObject> children3D = new List<GameObject>();
-    private List<GameObject> childrenQuad = new List<GameObject>();
-
     private void Start() {
         // Gather all 3D and 2D painting pieces, set references
         for (int i = 0; i < gameObject.transform.childCount; i++) {
@@ -41,8 +38,6 @@ public class PaintingManager : MonoBehaviour {
             if (t.tag == "MaskObject")
             {
                 t.GetComponent<PieceManager>().paintingManager = this;
-                children3D.Add(t.GetChild(0).gameObject);
-                childrenQuad.Add(t.GetChild(1).gameObject);
             }
         }
 
@@ -70,9 +65,13 @@ public class PaintingManager : MonoBehaviour {
 
         // Init the context cards of each piece
         int index = 0;
-        foreach (GameObject g in transform) {
-            if (g.name != "[crop]" && g.tag == "MaskObject") {
-                g.GetComponent<PieceManager>().InitContextCard(parsedData, index);
+        Debug.Log("This is weird af");
+        foreach (Transform t in transform) {
+            Debug.Log("Iteration");
+            if (t.name != "[crop]" && t.tag == "MaskObject") {
+                Debug.Log("We found a MaskObject");
+                Debug.Log(t.name);
+                t.GetComponent<PieceManager>().InitContextCard(parsedData, index);
                 index++;
             }
         }
@@ -85,7 +84,7 @@ public class PaintingManager : MonoBehaviour {
         }
 
         if (shouldCalcScale) {
-            // Scale the root container of the prefab relative to the painting
+            // Scale the root container of the prefab relative to the image target
             float targetWidth = image.ExtentX;
             float targetHeight = image.ExtentZ;
             float currentWidth = bounds.size.x;
@@ -112,10 +111,8 @@ public class PaintingManager : MonoBehaviour {
     // Initializes Bio card with information from the parsed JSON object
     private void InitBioCard() {
         // Set the name, artist, and image
-        bioManager.InitReferences();
         bioManager.bioName.text = parsedData.paintingName;
         bioManager.bioArtist.text = parsedData.artist;
-        Debug.Log(parsedData.imageName);
         string spritePath = "InfoImages/" + paintingName + "/Bio/" + parsedData.imageName;
         Sprite loadedSprite = Resources.Load<Sprite>(spritePath);
         if (loadedSprite != null) {
@@ -131,18 +128,7 @@ public class PaintingManager : MonoBehaviour {
 
     // Initializes Control card with information from the parsed JSON object
     private void InitControlCard() {
-        controlManager.InitReferences();
         controlManager.paintingName.text = parsedData.paintingName;
         controlManager.paintingArist.text = parsedData.artist;
-    }
-
-    // Animate the Control and Bio cards in
-    private IEnumerator DisplayUICards() {
-        return null;
-    }
-
-    // Animate the Control and Bio cards out
-    private IEnumerator HideUICards() {
-        return null;
     }
 }

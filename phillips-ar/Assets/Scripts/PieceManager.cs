@@ -56,10 +56,11 @@ public class PieceManager : MonoBehaviour {
                 StartCoroutine(DelayContextCardDisplay());
             }
             else if (!paintingManager.CheckLevitatePrivileges() && !floatForward) {
-                // Move the target node backward to inital position
-                targetPositionNode.transform.Translate(0f, 0f, paintingManager.floatFactor);
+                // Move the target position node back
                 paintingManager.ToggleLevitatePrivileges();
                 floatForward = true;
+                targetPositionNode.transform.Translate(0f, 0f, paintingManager.floatFactor);
+                contextCard.SetActive(false);
             }
         }
     }
@@ -67,33 +68,26 @@ public class PieceManager : MonoBehaviour {
     // Initializes Context Card with information from JSON object
     public void InitContextCard(PaintingJSONContainer parsedData, int index) {
         // Set title, caption, and description
-        contextManager.InitReferences();
-        contextManager.pieceTitle.text = parsedData.pieces[index].pieceName;
-        contextManager.pieceCaption.text = parsedData.pieces[index].caption;
-        contextManager.pieceParagraph.text = parsedData.pieces[index].description;
-    }
-
-    // Animate the Context Card in
-    private IEnumerator DisplayContextCard() {
-        return null;
-    }
-
-    // Animate the Context Card out
-    private IEnumerator HideContextCard() {
-        return null;
+        Debug.Log("Hello I am doing an init");
+        string title = parsedData.pieces[index].pieceName;
+        string caption = parsedData.pieces[index].caption;
+        string desc = parsedData.pieces[index].description;
+        Debug.Log(title);
+        Debug.Log(caption);
+        Debug.Log(desc);
+        if (contextManager.pieceTitle == null) {
+            Debug.Log("HELP");
+        }
+        contextManager.pieceTitle.text = title;
+        contextManager.pieceCaption.text = caption;
+        contextManager.pieceParagraph.text = desc;
+        Debug.Log("Context card initialized");
     }
 
     // Wait for the piece to be in position before displaying the card
     private IEnumerator DelayContextCardDisplay() {
         yield return new WaitForSeconds(.5f);
-        // If we're in the forward position, show the card
-        if (!floatForward) {
-            StartCoroutine(DisplayContextCard());
-        }
-    }
-
-    // Wait for the card hide anim to finish before moving the piece back
-    private IEnumerator DelayContextCardMove() {
-        return null;
+        if (!floatForward)
+            contextCard.SetActive(true);
     }
 }
