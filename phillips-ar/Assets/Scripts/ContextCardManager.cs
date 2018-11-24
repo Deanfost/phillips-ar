@@ -9,21 +9,4 @@ using UnityEngine.UI;
 public class ContextCardManager : MonoBehaviour {
     [HideInInspector]
     public Text pieceTitle, pieceCaption, pieceParagraph;
-
-    //private GameObject contentObject;
-
-    //private void Awake() {
-    //    // Setup references
-    //    Debug.Log("Awake");
-    //    contentObject =
-    //            transform
-    //                .GetChild(0)
-    //                .GetChild(0)
-    //                .GetChild(0)
-    //                .GetChild(0).gameObject;
-    //    pieceTitle = contentObject.transform.GetChild(1).GetComponent<Text>();
-    //    pieceCaption = contentObject.transform.GetChild(2).GetComponent<Text>();
-    //    pieceParagraph = contentObject.transform.GetChild(3).GetComponent<Text>();
-    //    Debug.Log("Context references assigned");
-    //}
 }

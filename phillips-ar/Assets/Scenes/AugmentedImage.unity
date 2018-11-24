@@ -145,7 +145,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   paintingPrefabs:
-  - {fileID: 1764404428309060, guid: 6f678fa2fd7854f8186d53765eb0cd2d, type: 2}
+  - {fileID: 1849231338016308, guid: 6f678fa2fd7854f8186d53765eb0cd2d, type: 2}
   hintOverlay: {fileID: 1622737808}
 --- !u!114 &732595309
 MonoBehaviour:
