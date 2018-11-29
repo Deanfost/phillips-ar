@@ -109,13 +109,18 @@ public class PaintingManager : MonoBehaviour {
         // Set the name, artist, and image
         bioManager.bioName.text = parsedData.paintingName;
         bioManager.bioArtist.text = parsedData.artist;
-        string spritePath = "InfoImages/" + paintingName + "/Bio/" + parsedData.imageName;
-        Sprite loadedSprite = Resources.Load<Sprite>(spritePath);
-        if (loadedSprite != null) {
-            bioManager.bioImage.sprite = loadedSprite;
-        }
-        else {
-            Debug.LogError("Invalid path for Bio Card image at " + spritePath);
+
+        if (parsedData.imageName != "") {
+            string spritePath = "InfoImages/" + paintingName + parsedData.imageName;
+            Sprite loadedSprite = Resources.Load<Sprite>(spritePath);
+            if (loadedSprite != null)
+            {
+                bioManager.bioImage.sprite = loadedSprite;
+            }
+            else
+            {
+                Debug.LogError("Invalid path for Bio Card image at " + spritePath);
+            }
         }
 
         // Set the description
