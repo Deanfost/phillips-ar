@@ -35,7 +35,7 @@ public class PaintingManager : MonoBehaviour {
         // Gather all 3D and 2D painting pieces, set references
         for (int i = 0; i < gameObject.transform.childCount; i++) {
             Transform t = gameObject.transform.GetChild(i);
-            if (t.tag == "MaskObject")
+            if (t.tag == "MaskObject" && !t.name.Contains("[crop]"))
             {
                 t.GetComponent<PieceManager>().paintingManager = this;
             }
@@ -66,7 +66,7 @@ public class PaintingManager : MonoBehaviour {
         // Init the context cards of each piece
         int index = 0;
         foreach (Transform t in transform) {
-            if (t.name != "[crop]" && t.tag == "MaskObject") {
+            if (!t.name.Contains("[crop]") && t.tag == "MaskObject") {
                 t.GetComponent<PieceManager>().InitContextCard(parsedData, index);
                 index++;
             }
@@ -111,7 +111,7 @@ public class PaintingManager : MonoBehaviour {
         bioManager.bioArtist.text = parsedData.artist;
 
         if (parsedData.imageName != "") {
-            string spritePath = "InfoImages/" + paintingName + parsedData.imageName;
+            string spritePath = "InfoImages/" + paintingName + "/" + parsedData.imageName;
             Sprite loadedSprite = Resources.Load<Sprite>(spritePath);
             if (loadedSprite != null)
             {

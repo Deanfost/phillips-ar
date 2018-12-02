@@ -47,22 +47,20 @@ public class PieceManager : MonoBehaviour {
 
     // Catch touch input
     private void OnMouseDown() {
-        // Toggle levitation if no other pieces are floating (and we're not the cropped background)
-        if (name != "[crop]") {
-            if (paintingManager.CheckLevitatePrivileges() && floatForward) {
-                // Move the target node forward to floating position
-                targetPositionNode.transform.Translate(0f, 0f, -paintingManager.floatFactor);
-                paintingManager.ToggleLevitatePrivileges();
-                floatForward = false;
-                StartCoroutine(DelayContextCardDisplay());
-            }
-            else if (!paintingManager.CheckLevitatePrivileges() && !floatForward) {
-                // Move the target position node back
-                paintingManager.ToggleLevitatePrivileges();
-                floatForward = true;
-                targetPositionNode.transform.Translate(0f, 0f, paintingManager.floatFactor);
-                contextCard.SetActive(false);
-            }
+        // Toggle levitation if no other pieces are floating
+        if (paintingManager.CheckLevitatePrivileges() && floatForward) {
+            // Move the target node forward to floating position
+            targetPositionNode.transform.Translate(0f, 0f, -paintingManager.floatFactor);
+            paintingManager.ToggleLevitatePrivileges();
+            floatForward = false;
+            StartCoroutine(DelayContextCardDisplay());
+        }
+        else if (!paintingManager.CheckLevitatePrivileges() && !floatForward) {
+            // Move the target position node back
+            paintingManager.ToggleLevitatePrivileges();
+            floatForward = true;
+            targetPositionNode.transform.Translate(0f, 0f, paintingManager.floatFactor);
+            contextCard.SetActive(false);
         }
     }
 

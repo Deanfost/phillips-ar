@@ -88,8 +88,13 @@ public class GeneratePaintingPrefab : MonoBehaviour {
             maskObjects[i].name = sprites[i].name;
             maskObjects[i].tag = "MaskObject";
 
-            // Add an instance of the card prefab for each piece for positioning later
-            if (maskObjects[i].name != "[crop]") {
+            // Add the PieceManager script if the current MaskObject is not a crop piece
+            if (!maskObjects[i].name.Contains("[crop]")) {
+                maskObjects[i].AddComponent<PieceManager>();
+            }
+
+            // Add an instance of the card prefab for each piece for positioning later if not a crop piece
+            if (!maskObjects[i].name.Contains("[crop]")) {
                 Vector3 centerOfMesh = mesh3D.bounds.center;
                 GameObject contextCardInstance = Instantiate(contextCard,
                                                          centerOfMesh,
@@ -113,8 +118,8 @@ public class GeneratePaintingPrefab : MonoBehaviour {
                 contextCardManager.pieceParagraph = contentObject.GetChild(3).GetComponent<Text>();
             }
 
-            string name3D = sprites[i].name + "3D";
-            string nameQuad = sprites[i].name + "Quad";
+            string name3D = sprites[i].name + " 3D";
+            string nameQuad = sprites[i].name + " Quad";
             mesh3D.name = name3D;
             meshQuad.name = nameQuad;
         }

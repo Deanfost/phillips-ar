@@ -95,7 +95,7 @@ public class PaintingJSONContainer {
                 stringParagraphs.Add(currentParagraph);
             }
 
-            // Combine all paragraphs into one with proper line seperation
+            // Combine all paragraphs into one mass of text with proper paragraphing
             foreach (string s in stringParagraphs) {
                 description += s + Environment.NewLine + Environment.NewLine;
             }
