@@ -42,11 +42,9 @@ public class AppManager : MonoBehaviour {
                 visualizer = Instantiate(paintingPrefabs[image.DatabaseIndex], anchor.transform);
                 visualizer.transform.GetChild(0).GetComponent<PaintingManager>().image = image;
                 activeVisualizers.Add(image.DatabaseIndex, visualizer);
-                Debug.Log("Adding visualizer...");
             }
             else if (image.TrackingState == TrackingState.Stopped && visualizer != null) {
                 // We are no longer tracking the image, remove the visualizer
-                Debug.Log("Removing visualizer...");
                 activeVisualizers.Remove(image.DatabaseIndex);
                 Destroy(visualizer.gameObject);
             }

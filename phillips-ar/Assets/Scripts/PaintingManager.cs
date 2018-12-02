@@ -74,6 +74,7 @@ public class PaintingManager : MonoBehaviour {
     }
 
     private void Update() {
+        // Hide the prefab if we don't have the image target in sight
         if (image == null || image.TrackingState != TrackingState.Tracking) {
             gameObject.SetActive(false);
             return;
