@@ -9,6 +9,9 @@ Using Unity3D and Google AR Core, image targets of paintings are used to add wor
 
 Alongside the model, UI cards are displayed in the worldspace, containing model controls and information on the work, such as year of work, name, artist, and descriptions. Upon interacting with a piece, it separates from the model, flying forward and placing focus on itself. Context cards appear nearby, showing information to the user specific to that piece. 
 
+![Screenshot 1](https://github.com/Deanfost/phillips-ar/blob/master/Screenshots/Screenshot_20181124-165008.jpg)
+![Screenshot 2](https://github.com/Deanfost/phillips-ar/blob/master/Screenshots/Screenshot_20181124-165033.jpg)
+
 ### Tracking Issues
 It should be noted that during runtime, the model may shift around and rescale. This is most likely due to AR Core's inability to track paintings as accurately as normal images. In the [documentation,
 ](https://developers.google.com/ar/develop/unity/augmented-images/) it states that images with scores of 75/100 (using AR Core's built-in tool) or above are tracked accurately; the current image target recieves a score of 0/100, with most other painting targets attempted recieving a similar score. Even when attempted with targets with very few repeating features, the result was still consistent with a less than ideal score.
