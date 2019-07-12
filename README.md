@@ -24,5 +24,8 @@ It should be noted that during runtime, the model may shift around and rescale. 
 - [Google AR Core](https://developers.google.com/ar/)
 - [JSONObject](https://github.com/mtschoen/JSONObject)
 
+### Project Information
+This project is running Unity version 2019.1.9f1, and the Google ARCore Unity plugin version is v1.10.0.
+
 ### Device Requirements
-Currently the project is compiling for Android devices. Android devices are required to [support AR Core](https://developers.google.com/ar/discover/supported-devices) with a minimum API level of 24. 
+Currently the project is only compatible with Android devices. Android devices are required to [support AR Core](https://developers.google.com/ar/discover/supported-devices) with a minimum API level of 24. 
