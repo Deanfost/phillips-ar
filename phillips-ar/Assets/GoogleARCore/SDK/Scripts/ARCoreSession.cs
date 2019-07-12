@@ -31,6 +31,16 @@ namespace GoogleARCore
     public class ARCoreSession : MonoBehaviour
     {
         /// <summary>
+        /// The direction of the device camera used by the session.
+        /// </summary>
+        /// <remarks>
+        /// Note that changing this value will trigger a re-initialization of session. ARCore
+        /// tracking data (e.g. Trackables) are not shared between cameras.
+        /// </remarks>
+        [Tooltip("The direction of the device camera used by the session.")]
+        public DeviceCameraDirection DeviceCameraDirection = DeviceCameraDirection.BackFacing;
+
+        /// <summary>
         /// A scriptable object specifying the ARCore session configuration.
         /// </summary>
         [Tooltip("A scriptable object specifying the ARCore session configuration.")]
@@ -48,24 +58,37 @@ namespace GoogleARCore
         /// but devices might provide higher or lower resolution textures, depending
         /// on device capabilities. The CPU image resolutions returned are VGA, 720p,
         /// and a resolution matching the GPU texture.</param>
-        /// <returns>The index of the camera configuration in <c>supportedConfigurations</c> to be used for the
-        /// ARCore session.  If the return value is not a valid index (e.g. the value -1), then no camera
-        /// configuration will be set and the ARCore session will use the previously selected camera
-        /// configuration or a default configuration if no previous selection exists.</returns>
-        public delegate int OnChooseCameraConfigurationDelegate(List<CameraConfig> supportedConfigurations);
+        /// <returns>The index of the camera configuration in <c>supportedConfigurations</c> to be
+        /// used for the ARCore session.  If the return value is not a valid index (e.g. the value
+        /// -1), then no camera configuration will be set and the ARCore session will use the
+        /// previously selected camera configuration or a default configuration if no previous
+        /// selection exists.</returns>
+        public delegate int OnChooseCameraConfigurationDelegate(
+            List<CameraConfig> supportedConfigurations);
 
         /// <summary>
         /// Unity Awake.
         /// </summary>
-        public void Awake()
+        [SuppressMemoryAllocationError(Reason = "Could create new LifecycleManager")]
+        public virtual void Awake()
         {
+            if (SessionConfig != null &&
+                SessionConfig.LightEstimationMode != LightEstimationMode.Disabled &&
+                Object.FindObjectsOfType<EnvironmentalLight>().Length == 0)
+            {
+                Debug.Log("Light Estimation may not work properly when EnvironmentalLight is not" +
+                    " attached to the scene.");
+            }
+
             LifecycleManager.Instance.CreateSession(this);
         }
 
         /// <summary>
         /// Unity OnDestroy.
         /// </summary>
-        public void OnDestroy()
+        [SuppressMemoryAllocationError(
+            IsWarning = true, Reason = "Requires further investigation.")]
+        public virtual void OnDestroy()
         {
             LifecycleManager.Instance.ResetSession();
         }
@@ -73,6 +96,8 @@ namespace GoogleARCore
         /// <summary>
         /// Unity OnEnable.
         /// </summary>
+        [SuppressMemoryAllocationError(
+            Reason = "Enabling session creates a new ARSessionConfiguration")]
         public void OnEnable()
         {
             LifecycleManager.Instance.EnableSession();
@@ -81,18 +106,65 @@ namespace GoogleARCore
         /// <summary>
         /// Unity OnDisable.
         /// </summary>
+        [SuppressMemoryAllocationError(
+            IsWarning = true, Reason = "Requires further investigation.")]
         public void OnDisable()
         {
             LifecycleManager.Instance.DisableSession();
         }
 
         /// <summary>
-        /// Registers a callback that allows a camera configuration to be selected from a list of valid configurations.
-        /// The callback will be invoked each time the ARCore session is resumed which can happen when the ARCoreSession
-        /// component becomes enabled or the Android application moves from 'paused' to 'resumed' state.
+        /// Unity OnValidate.
         /// </summary>
-        /// <param name="onChooseCameraConfiguration">The callback to register for selecting a camera configuration.</param>
-        public void RegisterChooseCameraConfigurationCallback(OnChooseCameraConfigurationDelegate onChooseCameraConfiguration)
+        public void OnValidate()
+        {
+            if (DeviceCameraDirection == DeviceCameraDirection.FrontFacing && SessionConfig != null)
+            {
+                if (SessionConfig.PlaneFindingMode != DetectedPlaneFindingMode.Disabled)
+                {
+                    Debug.LogErrorFormat("Plane Finding requires back-facing camera.");
+                }
+
+                if (SessionConfig.LightEstimationMode ==
+                        LightEstimationMode.EnvironmentalHDRWithoutReflections ||
+                    SessionConfig.LightEstimationMode ==
+                        LightEstimationMode.EnvironmentalHDRWithReflections)
+                {
+                    Debug.LogErrorFormat("LightEstimationMode.{0} is incompatible with" +
+                        "front-facing (selfie) camera.", SessionConfig.LightEstimationMode);
+                }
+
+                if (SessionConfig.EnableCloudAnchor)
+                {
+                    Debug.LogErrorFormat("Cloud Anchors require back-facing camera.");
+                }
+
+                if (SessionConfig.AugmentedImageDatabase != null)
+                {
+                    Debug.LogErrorFormat("Augmented Images require back-facing camera.");
+                }
+            }
+
+            if (DeviceCameraDirection == DeviceCameraDirection.BackFacing &&
+                SessionConfig != null && SessionConfig.AugmentedFaceMode !=
+                    AugmentedFaceMode.Disabled)
+            {
+                Debug.LogErrorFormat("AugmentedFaceMode.{0} requires front-facing (selfie) camera.",
+                    SessionConfig.AugmentedFaceMode);
+            }
+        }
+
+        /// <summary>
+        /// Registers a callback that allows a camera configuration to be selected from a list of
+        /// valid configurations.
+        /// The callback will be invoked each time the ARCore session is resumed which can happen
+        /// when the ARCoreSession component becomes enabled or the Android application moves from
+        /// 'paused' to 'resumed' state.
+        /// </summary>
+        /// <param name="onChooseCameraConfiguration">The callback to register for selecting a
+        /// camera configuration.</param>
+        public void RegisterChooseCameraConfigurationCallback(
+            OnChooseCameraConfigurationDelegate onChooseCameraConfiguration)
         {
             m_OnChooseCameraConfiguration = onChooseCameraConfiguration;
         }
